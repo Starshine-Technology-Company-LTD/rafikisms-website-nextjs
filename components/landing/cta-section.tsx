@@ -30,14 +30,14 @@ export function CtaSection() {
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div
-          className={`relative rounded-[32px] border border-border/70 bg-card text-card-foreground overflow-hidden shadow-[0_26px_70px_-42px_rgba(0,0,0,0.28)] transition-all duration-700 ${
+          className={`group relative rounded-[32px] border border-border/70 bg-card text-card-foreground overflow-hidden shadow-[0_26px_70px_-42px_rgba(0,0,0,0.28)] transition-all duration-700 hover:shadow-[0_32px_80px_-40px_rgba(0,0,0,0.35)] hover:-translate-y-1 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          {/* static radial teal glow */}
+          {/* Breathing radial teal glow */}
           <div
             aria-hidden
-            className="absolute inset-0 pointer-events-none opacity-90"
+            className="absolute inset-0 pointer-events-none opacity-90 breathe"
             style={{
               background:
                 "radial-gradient(60% 80% at 80% 50%, rgba(20,184,166,0.22), transparent 70%)",
@@ -45,10 +45,11 @@ export function CtaSection() {
           />
           <div
             aria-hidden
-            className="absolute inset-0 pointer-events-none opacity-60"
+            className="absolute inset-0 pointer-events-none opacity-60 breathe"
             style={{
               background:
                 "radial-gradient(50% 50% at 15% 20%, rgba(20,184,166,0.12), transparent 70%)",
+              animationDelay: "3s",
             }}
           />
 
@@ -69,15 +70,15 @@ export function CtaSection() {
                   <Button
                     size="lg"
                     variant="ghost"
-                    className="btn-brand px-7 h-12 text-sm rounded-full group"
+                    className="btn-brand px-7 h-12 text-sm rounded-full group/btn hover-glow focus-brand"
                   >
                     Create an account
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/btn:translate-x-1" />
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
-                    className="h-12 px-7 text-sm rounded-full border-border bg-transparent text-foreground hover:bg-muted"
+                    className="h-12 px-7 text-sm rounded-full border-border bg-transparent text-foreground hover:bg-muted hover:border-foreground/20 focus-brand transition-all duration-300"
                   >
                     Sign in
                   </Button>

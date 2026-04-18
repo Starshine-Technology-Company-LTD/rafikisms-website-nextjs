@@ -10,8 +10,8 @@ const features = landingContent.developers.points;
 const codeAnimationStyles = `
   .dev-code-line {
     opacity: 0;
-    transform: translateX(-8px);
-    animation: devLineReveal 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transform: translateX(-6px);
+    animation: devLineReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
   
   @keyframes devLineReveal {
@@ -23,14 +23,25 @@ const codeAnimationStyles = `
   
   .dev-code-char {
     opacity: 0;
-    filter: blur(8px);
-    animation: devCharReveal 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    filter: blur(4px);
+    animation: devCharReveal 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, filter;
   }
   
   @keyframes devCharReveal {
     to {
       opacity: 1;
       filter: blur(0);
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .dev-code-line,
+    .dev-code-char {
+      animation: none !important;
+      opacity: 1;
+      filter: none;
+      transform: none;
     }
   }
 `;
@@ -88,16 +99,16 @@ export function DevelopersSection() {
               {features.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className={`rounded-2xl border border-foreground/10 bg-background p-4 transition-all duration-500 ${
+                  className={`group rounded-2xl border border-foreground/10 bg-background p-4 transition-all duration-500 hover:border-brand/30 hover:bg-brand-soft/30 hover:shadow-sm ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                   }`}
                   style={{ transitionDelay: `${index * 50 + 200}ms` }}
                 >
-                  <div className="mb-2 inline-flex items-center justify-center w-7 h-7 rounded-md bg-brand/15 text-brand">
+                  <div className="mb-2 inline-flex items-center justify-center w-7 h-7 rounded-md bg-brand/15 text-brand transition-transform duration-300 group-hover:scale-110">
                     <Check className="w-3.5 h-3.5" strokeWidth={3} />
                   </div>
-                  <h3 className="font-medium mb-1 text-sm">{feature.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <h3 className="font-medium mb-1 text-sm group-hover:text-brand transition-colors duration-300">{feature.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed group-hover:text-foreground/70 transition-colors duration-300">
                     {feature.description}
                   </p>
                 </div>
@@ -119,7 +130,7 @@ export function DevelopersSection() {
                     key={example.label}
                     type="button"
                     onClick={() => setActiveTab(idx)}
-                    className={`shrink-0 px-4 py-3 text-sm font-mono transition-colors sm:px-6 sm:py-4 relative ${
+                    className={`shrink-0 px-4 py-3 text-sm font-mono transition-all duration-300 sm:px-6 sm:py-4 relative focus-brand ${
                       activeTab === idx
                         ? "text-brand"
                         : "text-muted-foreground hover:text-foreground"
@@ -127,7 +138,7 @@ export function DevelopersSection() {
                   >
                     {example.label}
                     {activeTab === idx && (
-                      <span className="absolute bottom-0 left-0 right-0 h-px bg-brand" />
+                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand shadow-[0_0_8px_rgba(20,184,166,0.4)] transition-all duration-300" />
                     )}
                   </button>
                 ))}
@@ -135,11 +146,15 @@ export function DevelopersSection() {
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="px-4 py-4 text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Copy code"
+                  className={`px-4 py-4 transition-all duration-300 focus-brand rounded-md ${
+                    copied 
+                      ? "text-brand bg-brand/10" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                  }`}
+                  aria-label={copied ? "Copied!" : "Copy code"}
                 >
                   {copied ? (
-                    <Check className="w-4 h-4 text-brand" />
+                    <Check className="w-4 h-4 animate-in zoom-in-50 duration-200" />
                   ) : (
                     <Copy className="w-4 h-4" />
                   )}

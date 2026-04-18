@@ -250,27 +250,27 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
       }`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-foreground/10">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-foreground/10 group-hover:border-brand/30 transition-colors duration-500">
         {/* Number */}
         <div className="shrink-0">
-          <span className="font-mono text-sm text-muted-foreground">{feature.number}</span>
+          <span className="font-mono text-sm text-muted-foreground group-hover:text-brand transition-colors duration-300">{feature.number}</span>
         </div>
         
         {/* Content */}
         <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
           <div>
-            <h3 className="text-3xl lg:text-4xl font-display mb-4 group-hover:translate-x-2 transition-transform duration-500">
+            <h3 className="text-3xl lg:text-4xl font-display mb-4 group-hover:translate-x-2 transition-all duration-500">
               {feature.title}
             </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-lg text-muted-foreground leading-relaxed group-hover:text-foreground/70 transition-colors duration-300">
               {feature.description}
             </p>
           </div>
           
           {/* Visual */}
           <div className="flex justify-center lg:justify-end">
-            <div className="relative w-48 h-40">
-              <div aria-hidden className="absolute inset-0 rounded-2xl bg-brand-soft" />
+            <div className="relative w-48 h-40 transition-transform duration-500 group-hover:scale-105">
+              <div aria-hidden className="absolute inset-0 rounded-2xl bg-brand-soft transition-all duration-500 group-hover:bg-brand/20" />
               <div className="relative w-full h-full text-brand">
                 <AnimatedVisual type={feature.visual} />
               </div>

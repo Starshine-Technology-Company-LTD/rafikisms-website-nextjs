@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { SignalWaveAnimation } from "./signal-wave-animation";
@@ -9,8 +10,23 @@ const footerLinks = landingContent.footer.links;
 const socialLinks = landingContent.footer.social;
 
 export function FooterSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (footerRef.current) observer.observe(footerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <footer className="relative border-t border-foreground/10">
+    <footer ref={footerRef} className="relative border-t border-foreground/10">
       {/* Animated wave background */}
       <div className="absolute inset-0 h-64 opacity-20 pointer-events-none overflow-hidden">
         <SignalWaveAnimation />
@@ -21,14 +37,22 @@ export function FooterSection() {
         <div className="py-16 lg:py-24">
           <div className="grid grid-cols-2 md:grid-cols-6 gap-12 lg:gap-8">
             {/* Brand Column */}
-            <div className="col-span-2">
-              <a href="#" className="inline-flex items-center mb-6" aria-label={landingContent.brand.name}>
+            <div 
+              className={`col-span-2 transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
+            >
+              <a 
+                href="#" 
+                className="inline-flex items-center mb-6 group focus-brand rounded-md" 
+                aria-label={landingContent.brand.name}
+              >
                 <Image
                   src="/images/rafiki-logo.png"
                   alt={landingContent.brand.name}
                   width={200}
                   height={200}
-                  className="h-12 w-auto"
+                  className="h-12 w-auto transition-all duration-300 group-hover:scale-[1.02] group-hover:brightness-110"
                 />
               </a>
 
@@ -38,29 +62,38 @@ export function FooterSection() {
 
               {/* Social Links */}
               <div className="flex gap-6">
-                {socialLinks.map((link) => (
+                {socialLinks.map((link, i) => (
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 group"
+                    className="text-sm text-muted-foreground hover:text-brand transition-colors duration-300 flex items-center gap-1 group/social focus-brand rounded-sm"
+                    style={{
+                      transitionDelay: isVisible ? `${i * 50}ms` : "0ms"
+                    }}
                   >
                     {link.name}
-                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover/social:opacity-100 group-hover/social:translate-x-0 transition-all duration-300" />
                   </a>
                 ))}
               </div>
             </div>
 
             {/* Link Columns */}
-            {Object.entries(footerLinks).map(([title, links]) => (
-              <div key={title}>
+            {Object.entries(footerLinks).map(([title, links], colIndex) => (
+              <div 
+                key={title}
+                className={`transition-all duration-700 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                }`}
+                style={{ transitionDelay: `${(colIndex + 1) * 100}ms` }}
+              >
                 <h3 className="text-sm font-medium mb-6">{title}</h3>
                 <ul className="space-y-4">
-                  {links.map((link) => (
+                  {links.map((link, linkIndex) => (
                     <li key={link.name}>
                       <a
                         href={link.href}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
+                        className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 inline-flex items-center gap-2 focus-brand rounded-sm hover:translate-x-0.5"
                       >
                         {link.name}
                         {"badge" in link && link.badge && (
@@ -85,7 +118,10 @@ export function FooterSection() {
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand" />
+              <span className="relative w-2 h-2">
+                <span className="absolute inset-0 rounded-full bg-brand status-pulse" />
+                <span className="absolute inset-0 rounded-full bg-brand" />
+              </span>
               {landingContent.footer.statusLabel}
             </span>
           </div>

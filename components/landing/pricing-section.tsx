@@ -62,7 +62,7 @@ export function PricingSection() {
           {pricing.tiers.map((tier, idx) => (
             <div
               key={tier.name}
-              className={`group relative bg-background p-5 lg:p-6 flex flex-col transition-all duration-700 ease-out hover:bg-brand-soft/30 hover:-translate-y-1 ${
+              className={`group relative bg-background p-5 lg:p-6 flex flex-col transition-all duration-500 ease-out hover:bg-brand-soft/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand/5 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               } ${tier.popular ? "ring-2 ring-brand ring-inset ring-pulse" : ""}`}
               style={{
@@ -116,7 +116,7 @@ export function PricingSection() {
 
               {/* Row 3: price */}
               <div className="flex items-baseline gap-1.5 mb-4">
-                <span className="font-display text-3xl lg:text-4xl text-brand leading-none transition-transform duration-300 origin-left group-hover:scale-110">
+                <span className="font-display text-3xl lg:text-4xl text-brand leading-none transition-transform duration-500 ease-out origin-left group-hover:scale-105">
                   {tier.pricePerSms}
                 </span>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
@@ -154,10 +154,12 @@ export function PricingSection() {
 
               {/* Row 5: highlights */}
               <ul className="space-y-2 mb-6 flex-1">
-                {tier.highlights.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <Check className="w-3.5 h-3.5 text-brand mt-0.5 shrink-0" />
-                    <span className="text-xs text-foreground/80 leading-snug">
+                {tier.highlights.map((item, i) => (
+                  <li key={item} className="flex items-start gap-2 group/item">
+                    <span className="w-3.5 h-3.5 mt-0.5 shrink-0 flex items-center justify-center transition-transform duration-300 group-hover/item:scale-110">
+                      <Check className="w-3.5 h-3.5 text-brand" />
+                    </span>
+                    <span className="text-xs text-foreground/80 leading-snug group-hover/item:text-foreground transition-colors duration-300">
                       {item}
                     </span>
                   </li>

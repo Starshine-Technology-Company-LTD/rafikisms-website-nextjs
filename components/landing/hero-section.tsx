@@ -66,9 +66,10 @@ export function HeroSection() {
     setIsVisible(true);
   }, []);
 
+  // Carousel auto-rotation - 5s interval for better engagement
   useEffect(() => {
     if (reduceMotion) return;
-    timerRef.current = setInterval(() => setActive((a) => (a + 1) % SLOTS.length), 6000);
+    timerRef.current = setInterval(() => setActive((a) => (a + 1) % SLOTS.length), 5000);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -77,11 +78,26 @@ export function HeroSection() {
   const resetTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     if (reduceMotion) return;
-    timerRef.current = setInterval(() => setActive((a) => (a + 1) % SLOTS.length), 6000);
+    timerRef.current = setInterval(() => setActive((a) => (a + 1) % SLOTS.length), 5000);
+  };
+
+  // Keyboard navigation for carousel
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextIndex = (index + 1) % SLOTS.length;
+      setActive(nextIndex);
+      resetTimer();
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevIndex = (index - 1 + SLOTS.length) % SLOTS.length;
+      setActive(prevIndex);
+      resetTimer();
+    }
   };
 
   return (
-    <section className="relative min-h-[92svh] lg:min-h-screen flex flex-col overflow-hidden">
+    <section id="main-content" className="relative min-h-[92svh] lg:min-h-screen flex flex-col overflow-hidden">
       {/* Right-side auto-rotating visual stage */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center w-[460px] h-[560px] xl:w-[560px] xl:h-[660px] 2xl:w-[620px] 2xl:h-[720px] opacity-95 pointer-events-none">
         <CarouselStage active={active} />
@@ -190,18 +206,26 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Carousel dots */}
-        <div className="mt-10 flex items-center gap-3">
+        {/* Carousel dots - with keyboard navigation */}
+        <div 
+          className="mt-10 flex items-center gap-3" 
+          role="tablist" 
+          aria-label="Hero carousel navigation"
+        >
           {SLOTS.map((s, i) => (
             <button
               key={s.label}
               type="button"
+              role="tab"
+              aria-selected={i === active}
               aria-label={`Show ${s.label}`}
+              tabIndex={i === active ? 0 : -1}
               onClick={() => {
                 setActive(i);
                 resetTimer();
               }}
-              className="group inline-flex items-center gap-2 focus:outline-none"
+              onKeyDown={(e) => handleKeyDown(e, i)}
+              className="group inline-flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full transition-all duration-200"
             >
               <span
                 className={`h-2 rounded-full transition-all duration-500 ${
@@ -209,7 +233,7 @@ export function HeroSection() {
                 }`}
               />
               <span
-                className={`text-[10px] font-mono uppercase tracking-widest transition-colors ${
+                className={`text-[10px] font-mono uppercase tracking-widest transition-colors duration-300 ${
                   i === active ? "text-brand" : "text-muted-foreground group-hover:text-foreground"
                 }`}
               >
@@ -235,9 +259,9 @@ export function HeroSection() {
                 {landingContent.hero.marqueeStats.map((stat) => (
                   <motion.div
                     key={`${stat.company}-${i}`}
-                    whileHover={{ y: -2 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                    className="shrink-0 inline-flex items-center gap-3 px-4 py-2 border border-foreground/10 rounded-full bg-background"
+                    whileHover={{ y: -3, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="shrink-0 inline-flex items-center gap-3 px-4 py-2 border border-foreground/10 rounded-full bg-background hover:border-brand/30 hover:shadow-sm transition-colors duration-300"
                   >
                     <span className="text-xl lg:text-2xl font-display text-brand leading-none">
                       {stat.value}

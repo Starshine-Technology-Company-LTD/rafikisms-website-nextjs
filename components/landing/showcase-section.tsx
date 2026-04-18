@@ -127,9 +127,9 @@ function ShowcaseStickyCard({
   const segment = 1 / total;
   const center = (index + 0.5) / total;
 
-  // Unified 5-point spline: wide opacity-1 plateau per segment + smooth handoffs (03/04 reliably visible).
-  const plateauPad = segment * 0.2;
-  const fadeLead = segment * 0.18;
+  // Refined 5-point spline: wider opacity-1 plateau per segment + smoother handoffs for premium feel
+  const plateauPad = segment * 0.22;
+  const fadeLead = segment * 0.2;
   const isFirst = index === 0;
 
   const opacityInput = [
@@ -148,18 +148,27 @@ function ShowcaseStickyCard({
     transformClamp
   );
 
-  // Outgoing push-back: scale 1 -> 0.92 and rotate 0 -> -3deg as next card enters.
+  // Outgoing push-back: scale 1 -> 0.94 and rotate 0 -> -2.5deg as next card enters.
+  // Slightly subtler than before for a more premium feel.
   // Last card stays at rest so the section unpins cleanly at the bottom.
   const scale = useTransform(
     scrollYProgress,
     [start, end],
-    isLast ? [1, 1] : [1, 0.92],
+    isLast ? [1, 1] : [1, 0.94],
     transformClamp
   );
   const rotate = useTransform(
     scrollYProgress,
     [start, end],
-    isLast ? [0, 0] : [0, -3],
+    isLast ? [0, 0] : [0, -2.5],
+    transformClamp
+  );
+  
+  // Shadow depth varies based on position for enhanced depth perception
+  const shadowOpacity = useTransform(
+    scrollYProgress,
+    [start, center, end],
+    [0.15, 0.35, 0.2],
     transformClamp
   );
 
@@ -227,7 +236,7 @@ function ShowcaseCardShell({
         isLastGraphite
           ? ""
           : "shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]"
-      } overflow-hidden pointer-events-auto`}
+      } overflow-hidden pointer-events-auto transition-shadow duration-500 hover:shadow-[0_35px_90px_-35px_rgba(0,0,0,0.4)]`}
     >
       <div className="grid lg:grid-cols-[1.05fr_1fr] gap-6 lg:gap-10 p-6 lg:p-11 items-center">
         {/* Copy column — opaque backing on last graphite step so About never bleeds through copy */}
@@ -330,13 +339,13 @@ function VisualLocalExpertise() {
         />
       </div>
 
-      {/* orbit chips */}
+      {/* orbit chips - varied timing for organic feel */}
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 12, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-        className="absolute top-6 left-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-foreground/10 shadow-sm soft-float"
+        transition={{ delay: 0.2, type: "spring", stiffness: 300, damping: 25 }}
+        className="absolute top-6 left-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-foreground/10 shadow-sm soft-float hover:border-brand/30 transition-colors duration-300"
       >
         <span className="w-5 h-5 rounded-full bg-brand/15 text-brand flex items-center justify-center text-[10px]">
           ✉
@@ -344,14 +353,36 @@ function VisualLocalExpertise() {
         <span className="text-xs font-medium">English</span>
       </motion.div>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 12, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.35 }}
-        className="absolute bottom-10 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-foreground/10 shadow-sm soft-float"
+        transition={{ delay: 0.35, type: "spring", stiffness: 300, damping: 25 }}
+        className="absolute bottom-10 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-foreground/10 shadow-sm soft-float hover:border-brand/30 transition-colors duration-300"
         style={{ animationDelay: "1.5s" }}
       >
         <span className="text-[10px]">🇹🇿</span>
+        <span className="text-xs font-medium">Swahili</span>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 12, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 25 }}
+        className="absolute top-14 right-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-foreground/10 shadow-sm soft-float hover:border-brand/30 transition-colors duration-300"
+        style={{ animationDelay: "0.8s" }}
+      >
+        <span className="text-[10px]">🇫🇷</span>
+        <span className="text-xs font-medium">French</span>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 12, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.65, type: "spring", stiffness: 300, damping: 25 }}
+        className="absolute bottom-6 right-6 inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-background border border-foreground/10 shadow-sm soft-float hover:border-brand/30 transition-colors duration-300"
+        style={{ animationDelay: "2.2s" }}
+      >
+        <span className="text-[10px]">����🇿</span>
         <span className="text-xs font-medium">Swahili</span>
       </motion.div>
       <motion.div

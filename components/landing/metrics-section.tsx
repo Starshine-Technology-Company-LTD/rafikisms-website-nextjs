@@ -22,13 +22,15 @@ function AnimatedCounter({
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
-          const duration = 2000;
+          // Slightly longer duration for more dramatic effect
+          const duration = 2200;
           const startTime = performance.now();
 
           const animate = (currentTime: number) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
+            // Smoother easing curve for premium feel
+            const eased = 1 - Math.pow(1 - progress, 4);
             setCount(Math.floor(eased * end));
 
             if (progress < 1) {
@@ -49,10 +51,10 @@ function AnimatedCounter({
   return (
     <div
       ref={ref}
-      className="font-display text-4xl lg:text-5xl tracking-tight text-brand leading-none"
+      className="font-display text-4xl lg:text-5xl tracking-tight text-brand leading-none transition-transform duration-300 group-hover:scale-[1.02]"
     >
       {prefix}
-      {count.toLocaleString()}
+      <span className="tabular-nums">{count.toLocaleString()}</span>
       {suffix}
     </div>
   );
@@ -154,7 +156,7 @@ export function MetricsSection() {
                 {metrics.map((metric, index) => (
                   <div
                     key={metric.label}
-                    className={`group relative border border-foreground/10 rounded-2xl p-5 lg:p-6 bg-background/70 backdrop-blur-sm soft-float transition-all duration-700 hover:border-brand/40 hover:bg-brand-soft/40 ${
+                    className={`group relative border border-foreground/10 rounded-2xl p-5 lg:p-6 bg-background/70 backdrop-blur-sm soft-float transition-all duration-500 hover:border-brand/40 hover:bg-brand-soft/40 hover:shadow-lg hover:shadow-brand/5 ${
                       isVisible
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-6"
@@ -165,7 +167,7 @@ export function MetricsSection() {
                     }}
                   >
                     {/* Corner index */}
-                    <span className="absolute top-3 right-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
+                    <span className="absolute top-3 right-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60 group-hover:text-brand/60 transition-colors duration-300">
                       {String(index + 1).padStart(2, "0")}
                     </span>
 
@@ -174,12 +176,12 @@ export function MetricsSection() {
                       suffix={metric.suffix}
                       prefix={metric.prefix}
                     />
-                    <div className="mt-2 text-sm lg:text-base text-muted-foreground">
+                    <div className="mt-2 text-sm lg:text-base text-muted-foreground group-hover:text-foreground/70 transition-colors duration-300">
                       {metric.label}
                     </div>
 
-                    {/* Hover teal bar */}
-                    <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-gradient-to-r from-brand to-brand-strong group-hover:w-full transition-all duration-500 rounded-b-2xl" />
+                    {/* Hover teal bar - refined animation */}
+                    <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-gradient-to-r from-brand to-brand-strong group-hover:w-full transition-all duration-700 ease-out rounded-b-2xl" />
                   </div>
                 ))}
               </div>
