@@ -207,23 +207,21 @@ function ShowcaseCardShell({
   const isLastGraphite = theme === "graphite" && isLastCard;
 
   const shellClass =
-    theme === "dark"
-      ? "bg-card text-card-foreground border-border/70"
-      : theme === "graphite"
-        ? isLastCard
-          ? "bg-background/88 backdrop-blur-xl backdrop-saturate-150 text-foreground border-brand/25 shadow-[0_28px_70px_-42px_rgba(15,118,110,0.32)] dark:border-white/12 dark:bg-background/82"
-          : "bg-muted/55 text-foreground border-border/70"
+    theme === "graphite"
+      ? isLastCard
+        ? "bg-background/88 backdrop-blur-xl backdrop-saturate-150 text-foreground border-brand/25 shadow-[0_28px_70px_-42px_rgba(15,118,110,0.32)] dark:border-white/12 dark:bg-background/82"
+        : "bg-muted/55 text-foreground border-border/70"
       : theme === "light-teal"
-      ? "bg-gradient-to-br from-[rgba(20,184,166,0.10)] via-background to-background border-brand/20"
-      : "bg-background border-foreground/10";
+        ? "bg-gradient-to-br from-[rgba(20,184,166,0.10)] via-background to-background border-brand/20"
+        : "bg-background border-foreground/10";
 
   const numberPillClass =
-    theme === "dark" || theme === "graphite"
+    theme === "graphite"
       ? "bg-foreground/10 text-brand"
       : "bg-brand/10 text-brand";
 
   const leadClass =
-    theme === "dark" || theme === "graphite"
+    theme === "graphite"
       ? "text-muted-foreground"
       : "text-foreground/70";
 
@@ -282,7 +280,7 @@ function ShowcaseCardShell({
               >
                 <span
                   className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
-                    theme === "dark" || theme === "graphite"
+                    theme === "graphite"
                       ? "bg-brand/20 text-brand"
                       : "bg-brand/15 text-brand"
                   }`}

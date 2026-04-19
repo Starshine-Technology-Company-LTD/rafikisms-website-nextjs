@@ -89,21 +89,29 @@ export function FooterSection() {
               >
                 <h3 className="text-sm font-medium mb-6">{title}</h3>
                 <ul className="space-y-4">
-                  {links.map((link, linkIndex) => (
+                  {links.map((link, linkIndex) => {
+                    const badge =
+                      "badge" in link &&
+                      typeof link.badge === "string" &&
+                      link.badge
+                        ? link.badge
+                        : null;
+                    return (
                     <li key={link.name}>
                       <a
                         href={link.href}
                         className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 inline-flex items-center gap-2 focus-brand rounded-sm hover:translate-x-0.5"
                       >
                         {link.name}
-                        {"badge" in link && link.badge && (
+                        {badge ? (
                           <span className="text-xs px-2 py-0.5 bg-foreground text-background rounded-full">
-                            {link.badge}
+                            {badge}
                           </span>
-                        )}
+                        ) : null}
                       </a>
                     </li>
-                  ))}
+                  );
+                  })}
                 </ul>
               </div>
             ))}

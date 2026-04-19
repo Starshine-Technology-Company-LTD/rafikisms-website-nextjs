@@ -226,7 +226,9 @@ function AnimatedVisual({ type }: { type: string }) {
   }
 }
 
-function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
+type FeatureItem = (typeof features)[number];
+
+function FeatureCard({ feature, index }: { feature: FeatureItem; index: number }) {
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
