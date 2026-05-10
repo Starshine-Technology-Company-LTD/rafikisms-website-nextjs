@@ -30,58 +30,61 @@ export function InfrastructureSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-20 lg:py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+    <section ref={sectionRef} className="relative overflow-hidden py-14 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
           {/* Left: Content */}
           <div
-            className={`transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+            className={`min-w-0 transition-all duration-700 ${
+              isVisible ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
             }`}
           >
-            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-              <span className="w-8 h-px bg-foreground/30" />
+            <span className="mb-5 inline-flex items-center gap-2 text-sm font-mono text-muted-foreground sm:mb-6 sm:gap-3">
+              <span className="h-px w-6 shrink-0 bg-foreground/30 sm:w-8" />
               {landingContent.infrastructure.eyebrow}
             </span>
-            <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8">
+            <h2 className="mb-6 max-w-[22ch] text-balance font-display text-[clamp(1.75rem,5vw+0.5rem,2.35rem)] leading-[1.08] tracking-tight sm:mb-8 sm:text-4xl sm:leading-[1.06] lg:text-6xl">
               {landingContent.infrastructure.title}
               <br />
-              {landingContent.infrastructure.subtitle}
+              <span className="text-muted-foreground">
+                {landingContent.infrastructure.subtitle}
+              </span>
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed mb-12">
+            <p className="mb-10 max-w-prose text-base leading-relaxed text-muted-foreground sm:mb-12 sm:text-xl">
               {landingContent.infrastructure.description}
             </p>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6">
+            {/* Stats — stack on mobile, row from sm up */}
+            <ul className="flex flex-col gap-3 sm:grid sm:grid-cols-3 sm:gap-4">
               {landingContent.infrastructure.stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="rounded-2xl border border-foreground/10 bg-background p-5"
-                >
-                  <div className="text-3xl lg:text-4xl font-display text-brand mb-1">
-                    {stat.value}
+                <li key={stat.label}>
+                  <div className="rounded-2xl border border-foreground/10 bg-background p-5 sm:min-h-[132px] sm:p-6">
+                    <div className="font-display text-3xl tabular-nums text-brand sm:text-4xl">
+                      {stat.value}
+                    </div>
+                    <div className="mt-2 text-xs leading-snug text-muted-foreground">
+                      {stat.label}
+                    </div>
                   </div>
-                  <div className="text-xs text-muted-foreground leading-tight">
-                    {stat.label}
-                  </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Right: Location list */}
           <div
-            className={`transition-all duration-700 delay-200 ${
-              isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+            className={`min-w-0 transition-all duration-700 delay-200 ${
+              isVisible ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
             }`}
           >
-            <div className="border border-foreground/10">
+            <div className="overflow-hidden rounded-2xl border border-foreground/10 shadow-sm">
               {/* Header */}
-              <div className="px-6 py-4 border-b border-foreground/10 flex items-center justify-between">
-                <span className="text-sm font-mono text-muted-foreground">{landingContent.infrastructure.panelTitle}</span>
-                <span className="flex items-center gap-2 text-xs font-mono text-green-600">
-                  <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-foreground/10 px-4 py-3 sm:px-6 sm:py-4">
+                <span className="text-xs font-mono text-muted-foreground sm:text-sm">
+                  {landingContent.infrastructure.panelTitle}
+                </span>
+                <span className="flex items-center gap-2 text-[11px] font-mono text-green-600 sm:text-xs">
+                  <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-brand" />
                   {landingContent.infrastructure.panelStatus}
                 </span>
               </div>
@@ -91,22 +94,26 @@ export function InfrastructureSection() {
                 {locations.map((location, index) => (
                   <div
                     key={location.city}
-                    className={`px-6 py-5 border-b border-foreground/5 last:border-b-0 flex items-center justify-between transition-all duration-300 ${
+                    className={`flex items-center justify-between gap-4 border-b border-foreground/5 px-4 py-4 last:border-b-0 sm:px-6 sm:py-5 ${
                       activeLocation === index ? "bg-foreground/[0.02]" : ""
-                    }`}
+                    } transition-colors duration-300`}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
                       <span
-                        className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
+                        className={`h-2.5 w-2.5 shrink-0 rounded-full transition-colors duration-300 ${
                           activeLocation === index ? "bg-brand" : "bg-foreground/20"
                         }`}
                       />
-                      <div>
-                        <div className="font-medium">{location.city}</div>
-                        <div className="text-sm text-muted-foreground">{location.region}</div>
+                      <div className="min-w-0">
+                        <div className="truncate font-medium">{location.city}</div>
+                        <div className="truncate text-sm text-muted-foreground">
+                          {location.region}
+                        </div>
                       </div>
                     </div>
-                    <span className="font-mono text-sm text-muted-foreground">{location.latency}</span>
+                    <span className="shrink-0 font-mono text-xs text-muted-foreground sm:text-sm">
+                      {location.latency}
+                    </span>
                   </div>
                 ))}
               </div>

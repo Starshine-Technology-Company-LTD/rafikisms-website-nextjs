@@ -1,13 +1,49 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import { landingContent } from "./content";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { MobileNav, HamburgerIcon } from "@/components/nav/mobile-nav";
 
 const navLinks = landingContent.navigation.links;
+
+const LOGO_EASE = [0.22, 1, 0.36, 1] as const;
+
+const logoVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const iconVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.6,
+    rotate: -12,
+    filter: "blur(4px)",
+  },
+  show: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.65,
+      ease: LOGO_EASE,
+    },
+  },
+};
+
 
 // Map nav link names to section IDs for active state detection
 const sectionIds: Record<string, string> = {
@@ -17,7 +53,23 @@ const sectionIds: Record<string, string> = {
   About: "about",
 };
 
+function navLinkActive(
+  pathname: string,
+  href: string,
+  activeSection: string | null,
+  linkName: string
+) {
+  if (href.startsWith("/") && !href.includes("#")) {
+    if (href === "/docs") {
+      return pathname === "/docs" || pathname.startsWith("/docs/");
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
+  return activeSection === linkName;
+}
+
 export function Navigation() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -76,12 +128,10 @@ export function Navigation() {
       </a>
       
       <header
-        className={`fixed z-50 transition-all duration-500 ${
-          isMounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+        className={`fixed left-0 right-0 z-[110] transition-all duration-500 ${
+          isMounted ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
         } ${
-          isScrolled 
-            ? "top-4 left-4 right-4" 
-            : "top-0 left-0 right-0"
+          isScrolled ? "top-4 left-4 right-4" : "top-0"
         }`}
       >
       <nav 
@@ -96,30 +146,63 @@ export function Navigation() {
             isScrolled ? "h-14" : "h-20"
           }`}
         >
-          {/* Logo */}
-          <a 
-            href="#" 
-            className="flex items-center group focus-brand rounded-md" 
+          {/* Logo — staged reveal (full mark: blur → sharp + scale) */}
+          <a
+            href="#"
+            className="group flex items-center rounded-md focus-brand"
             aria-label={landingContent.brand.name}
           >
-            <Image
-              src="/images/rafiki-logo.png"
-              alt={landingContent.brand.name}
-              width={200}
-              height={200}
-              priority
-              className={`w-auto transition-all duration-500 group-hover:scale-[1.02] group-hover:brightness-110 ${
-                isScrolled ? "h-8" : "h-11"
-              }`}
-            />
+            <motion.div
+              variants={logoVariants}
+              initial="hidden"
+              animate={isMounted ? "show" : "hidden"}
+              className="flex items-center"
+            >
+              <motion.div variants={iconVariants} className="relative shrink-0">
+                <motion.div
+                  className="rounded-lg p-0.5 ring-transparent transition-shadow duration-300 group-hover:ring-2 group-hover:ring-[var(--brand-primary)]/35"
+                  animate={
+                    isMounted
+                      ? { y: [0, -2.5, 0] }
+                      : undefined
+                  }
+                  transition={{
+                    duration: 4.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  whileHover={{
+                    scale: 1.06,
+                    transition: { type: "spring", stiffness: 420, damping: 20 },
+                  }}
+                  whileTap={{ scale: 0.94 }}
+                >
+                  <Image
+                    src="/images/rafiki-logo.png"
+                    alt={landingContent.brand.name}
+                    width={200}
+                    height={200}
+                    priority
+                    className={`w-auto select-none transition-[filter,height] duration-300 group-hover:brightness-110 dark:group-hover:drop-shadow-[0_0_14px_rgba(10,175,160,0.35)] ${
+                      isScrolled ? "h-8" : "h-11"
+                    }`}
+                  />
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link, index) => {
-              const isActive = activeSection === link.name;
+              const isActive = navLinkActive(
+                pathname,
+                link.href,
+                activeSection,
+                link.name
+              );
               return (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className={`text-sm transition-all duration-300 relative group focus-brand rounded-sm ${
@@ -140,7 +223,7 @@ export function Navigation() {
                       isActive ? "w-full" : "w-0 group-hover:w-full group-hover:bg-foreground/40"
                     }`} 
                   />
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -171,75 +254,24 @@ export function Navigation() {
           <div className="md:hidden flex items-center gap-2">
             <ThemeToggle />
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2"
-            aria-label="Toggle menu"
+            type="button"
+            onClick={() => setIsMobileMenuOpen((o) => !o)}
+            className="rounded-md p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand-primary)]"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation-panel"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            <HamburgerIcon open={isMobileMenuOpen} />
           </button>
           </div>
         </div>
 
       </nav>
-      
-      {/* Mobile Menu - Full Screen Overlay */}
-      <div
-        className={`md:hidden fixed inset-0 bg-background z-40 transition-all duration-500 ${
-          isMobileMenuOpen 
-            ? "opacity-100 pointer-events-auto" 
-            : "opacity-0 pointer-events-none"
-        }`}
-        style={{ top: 0 }}
-      >
-        <div className="flex flex-col h-full px-8 pt-28 pb-8">
-          {/* Navigation Links */}
-          <div className="flex-1 flex flex-col justify-center gap-8">
-            {navLinks.map((link, i) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-5xl font-display text-foreground hover:text-muted-foreground transition-all duration-500 ${
-                  isMobileMenuOpen 
-                    ? "opacity-100 translate-y-0" 
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{ transitionDelay: isMobileMenuOpen ? `${i * 75}ms` : "0ms" }}
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-          
-          {/* Bottom CTAs */}
-          <div className={`flex gap-4 pt-8 border-t border-foreground/10 transition-all duration-500 ${
-            isMobileMenuOpen 
-              ? "opacity-100 translate-y-0" 
-              : "opacity-0 translate-y-4"
-          }`}
-          style={{ transitionDelay: isMobileMenuOpen ? "300ms" : "0ms" }}
-          >
-            <Button 
-              variant="outline" 
-              className="flex-1 rounded-full h-14 text-base"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {landingContent.navigation.signInLabel}
-            </Button>
-            <Button 
-              variant="ghost"
-              className="flex-1 btn-brand rounded-full h-14 text-base"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {landingContent.navigation.ctaLabel}
-            </Button>
-          </div>
-        </div>
-      </div>
+
+      <MobileNav
+        open={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
     </header>
     </>
   );

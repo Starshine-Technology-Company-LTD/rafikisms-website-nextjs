@@ -27,6 +27,7 @@ export const landingContent = {
       { name: "About", href: "#about" },
       { name: "Features", href: "#features" },
       { name: "Approach", href: "#approach" },
+      { name: "Docs", href: "/docs" },
       { name: "Developers", href: "#developers" },
       { name: "Pricing", href: "#pricing" },
       { name: "Team", href: "#team" },
@@ -84,16 +85,16 @@ export const landingContent = {
     eyebrow: "Enterprise SMS API platform",
     headlineStart: "The platform",
     headlinePrefix: "to",
-    rotatingWords: ["notify", "engage", "deliver", "scale"],
+    rotatingWords: ["notif", "engage", "connect", "reach"],
     description:
       "Queue, send, and track SMS with vendor API keys, sender ID governance, and delivery reports your team can trust.",
     primaryCta: "Start free trial",
     secondaryCta: "Read API docs",
     marqueeStats: [
-      { value: "<3s", label: "queue to provider handoff", company: "RAFIKI PIPELINE" },
       { value: "99.99%", label: "platform uptime target", company: "RAFIKI OPERATIONS" },
       { value: "24/7", label: "delivery monitoring", company: "NOC TEAM" },
       { value: "API-first", label: "vendor integrations", company: "RAFIKI API" },
+      { value: "<3s", label: "queue to provider handoff", company: "RAFIKI PIPELINE" },
     ],
   },
   features: {
@@ -264,7 +265,7 @@ saveSmsLog({
     title: "API-first experience.",
     subtitle: "Production-ready delivery.",
     description:
-      "Use familiar JSON APIs to send, track, and report messages with clean integration paths for Laravel, Node, and internal systems.",
+      "Use familiar JSON APIs to send, track, and report messages with clean integration paths for Node, .NET, Python, or your own services.",
     tabs: [
       {
         label: "Send",
@@ -620,7 +621,19 @@ const data = await report.json();`,
       },
       {
         q: "What makes Rafiki SMS different?",
-        a: "A Laravel-backed SMPP pipeline, vendor-scoped API keys, per-message audit trails, and a local Tanzanian operations team that picks up the phone when it matters.",
+        a: "An API-first SMS platform built on a queued, observable pipeline: vendor-scoped keys, gateway-grade SMPP routing to Tanzanian networks, structured delivery receipts and callbacks, full audit trails, plus a Dar es Salaam operations team when you need a human.",
+      },
+      {
+        q: "How is the platform architected for scale and reliability?",
+        a: "Traffic enters through authenticated APIs and validation layers, persists to durable storage before dispatch, then flows through prioritized asynchronous workers and carrier-facing SMPP paths. Supporting services handle delivery reports (DLRs), retries, and webhook callbacks — so bursts are absorbed without sacrificing traceability.",
+      },
+      {
+        q: "Are messages and delivery statuses guaranteed under load?",
+        a: "We design for at-least-once processing end-to-end: accepts are recorded, outbound work is queued for resilient workers, and downstream systems receive status updates through DLR ingestion and HTTPS callbacks — with bounded retries instead of silent drops when carriers or endpoints hiccup.",
+      },
+      {
+        q: "Can we integrate status updates into our own systems?",
+        a: "Yes. Beyond the dashboard and APIs, you can consume delivery lifecycle events via webhooks and structured logs — ideal for reconciling CRM records, billing, or support workflows without polling carrier consoles.",
       },
       {
         q: "Which payment methods do you support?",

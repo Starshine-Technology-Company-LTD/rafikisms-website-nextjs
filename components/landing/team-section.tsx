@@ -110,7 +110,7 @@ export function TeamSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const deckRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const deckMinHeightVh = team.members.length * 10 + 20;
+  const deckMinHeightVh = team.members.length * 8 + 16;
 
   useEffect(() => {
     const observer = new IntersectionObserver(

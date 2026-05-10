@@ -33,7 +33,7 @@ export function HowItWorksSection() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative py-20 lg:py-24 overflow-hidden"
+      className="relative overflow-hidden py-14 sm:py-20 lg:py-24"
     >
       {/* Diagonal lines pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
@@ -48,17 +48,17 @@ export function HowItWorksSection() {
         }} />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-      <div className="rounded-3xl border border-border/60 bg-card text-card-foreground p-8 lg:p-14 overflow-hidden shadow-[0_24px_60px_-36px_rgba(0,0,0,0.25)]">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
+      <div className="overflow-hidden rounded-3xl border border-border/60 bg-card p-5 text-card-foreground shadow-[0_24px_60px_-36px_rgba(0,0,0,0.25)] sm:p-8 lg:p-14">
         {/* Header */}
-        <div className="mb-10 lg:mb-14">
-          <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-            <span className="w-8 h-px bg-foreground/30" />
+        <div className="mb-8 sm:mb-10 lg:mb-14">
+          <span className="mb-5 inline-flex items-center gap-2 text-sm font-mono text-muted-foreground sm:mb-6 sm:gap-3">
+            <span className="h-px w-6 shrink-0 bg-foreground/30 sm:w-8" />
             {landingContent.howItWorks.eyebrow}
           </span>
           <h2
-            className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            className={`max-w-[100%] text-balance text-[clamp(1.625rem,5.2vw+0.6rem,2.25rem)] font-display leading-[1.12] tracking-tight transition-all duration-700 sm:text-4xl sm:leading-[1.1] lg:text-6xl ${
+              isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
           >
             {landingContent.howItWorks.title}
@@ -68,21 +68,23 @@ export function HowItWorksSection() {
         </div>
 
         {/* Main content */}
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
           {/* Steps */}
-          <div className="space-y-0">
+          <div className="min-w-0 space-y-0">
             {steps.map((step, index) => (
               <button
                 key={step.number}
                 type="button"
                 onClick={() => setActiveStep(index)}
-                className={`w-full text-left py-8 border-b border-border/80 transition-all duration-500 group ${
+                className={`w-full min-w-0 py-6 text-left transition-all duration-500 max-sm:active:opacity-90 sm:py-8 ${
+                  index < steps.length - 1 ? "border-b border-border/80" : ""
+                } group ${
                   activeStep === index ? "opacity-100" : "opacity-40 hover:opacity-70"
                 }`}
               >
-                <div className="flex items-start gap-6">
+                <div className="flex min-w-0 items-start gap-3 sm:gap-6">
                   <span
-                    className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-mono text-sm transition-colors ${
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-mono text-xs transition-colors sm:h-10 sm:w-10 sm:text-sm ${
                       activeStep === index
                         ? "bg-brand text-brand-foreground"
                         : "bg-muted text-muted-foreground"
@@ -90,11 +92,11 @@ export function HowItWorksSection() {
                   >
                     {step.number}
                   </span>
-                  <div className="flex-1">
-                    <h3 className="text-2xl lg:text-3xl font-display mb-3 group-hover:translate-x-2 transition-transform duration-300">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="mb-2 break-words text-xl font-display leading-snug transition-transform duration-300 sm:mb-3 sm:text-2xl sm:leading-tight lg:text-3xl sm:group-hover:translate-x-1 lg:group-hover:translate-x-2">
                       {step.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="break-words text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
                       {step.description}
                     </p>
                     
@@ -116,21 +118,21 @@ export function HowItWorksSection() {
           </div>
 
           {/* Code display */}
-          <div className="lg:sticky lg:top-32 self-start">
-            <div className="border border-border/80 overflow-hidden rounded-2xl bg-background/50">
+          <div className="min-w-0 lg:sticky lg:top-32 lg:self-start">
+            <div className="overflow-hidden rounded-2xl border border-border/80 bg-background/50">
               {/* Window header */}
-              <div className="px-6 py-4 border-b border-border/80 flex items-center justify-between">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-muted" />
-                  <div className="w-3 h-3 rounded-full bg-muted" />
-                  <div className="w-3 h-3 rounded-full bg-muted" />
+              <div className="flex items-center justify-between gap-3 border-b border-border/80 px-4 py-3 sm:px-6 sm:py-4">
+                <div className="flex shrink-0 gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full bg-muted sm:h-3 sm:w-3" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-muted sm:h-3 sm:w-3" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-muted sm:h-3 sm:w-3" />
                 </div>
-                <span className="text-xs font-mono text-muted-foreground">{landingContent.howItWorks.fileName}</span>
+                <span className="truncate text-[10px] font-mono text-muted-foreground sm:text-xs">{landingContent.howItWorks.fileName}</span>
               </div>
 
               {/* Code content */}
-              <div className="p-8 font-mono text-sm min-h-[280px]">
-                <pre className="text-foreground/75">
+              <div className="min-h-[220px] overflow-x-auto p-4 font-mono text-[11px] leading-relaxed sm:min-h-[280px] sm:p-8 sm:text-sm [-webkit-overflow-scrolling:touch]">
+                <pre className="min-w-min text-foreground/75">
                   {steps[activeStep].code.split('\n').map((line, lineIndex) => (
                     <div 
                       key={`${activeStep}-${lineIndex}`} 
@@ -139,7 +141,7 @@ export function HowItWorksSection() {
                         animationDelay: `${lineIndex * 80}ms`,
                       }}
                     >
-                      <span className="text-muted-foreground/60 select-none w-8 inline-block">{lineIndex + 1}</span>
+                      <span className="inline-block w-6 shrink-0 select-none text-muted-foreground/60 tabular-nums sm:w-8">{lineIndex + 1}</span>
                       <span className="inline-flex">
                         {line.split('').map((char, charIndex) => (
                           <span
@@ -159,7 +161,7 @@ export function HowItWorksSection() {
               </div>
 
               {/* Status */}
-              <div className="px-6 py-4 border-t border-border/80 flex items-center gap-3">
+              <div className="flex items-center gap-3 border-t border-border/80 px-4 py-3 sm:px-6 sm:py-4">
                 <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
                 <span className="text-xs font-mono text-muted-foreground">{landingContent.howItWorks.readyLabel}</span>
               </div>

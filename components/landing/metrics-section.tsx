@@ -23,7 +23,7 @@ function AnimatedCounter({
         if (entry.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
           // Slightly longer duration for more dramatic effect
-          const duration = 2200;
+          const duration = 1400;
           const startTime = performance.now();
 
           const animate = (currentTime: number) => {
@@ -189,6 +189,12 @@ export function MetricsSection() {
           </div>
         </div>
       </div>
+
+      {process.env.NODE_ENV === "development" && (
+        <div className="py-8 text-center text-sm text-neutral-400">
+          [Live metrics section — coming soon]
+        </div>
+      )}
     </section>
   );
 }

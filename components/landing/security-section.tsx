@@ -53,13 +53,13 @@ export function SecuritySection() {
               {landingContent.security.description}
             </p>
 
-            {/* Certifications */}
-            <div className="flex flex-wrap gap-3">
+            {/* Certifications / trust tags — brand teal (not default border) */}
+            <div className="flex flex-wrap gap-2.5 sm:gap-3">
               {certifications.map((cert, index) => (
                 <span
                   key={cert}
-                  className={`px-4 py-2 border border-foreground/10 text-sm font-mono transition-all duration-500 ${
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  className={`inline-flex items-center rounded-full border border-[var(--brand-primary)]/45 bg-[var(--brand-primary)]/10 px-3.5 py-1.5 text-xs font-mono text-[var(--brand-primary)] shadow-sm shadow-[var(--brand-primary)]/5 transition-all duration-500 dark:border-[var(--brand-primary)]/50 dark:bg-[var(--brand-primary)]/12 dark:text-[var(--brand-primary)] sm:px-4 sm:py-2 sm:text-sm ${
+                    isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                   }`}
                   style={{ transitionDelay: `${index * 50 + 200}ms` }}
                 >
@@ -80,7 +80,7 @@ export function SecuritySection() {
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="shrink-0 w-10 h-10 flex items-center justify-center border border-foreground/10 group-hover:bg-foreground group-hover:text-background transition-colors duration-300">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[var(--brand-primary)]/35 bg-[var(--brand-primary)]/8 text-[var(--brand-primary)] transition-colors duration-300 group-hover:bg-[var(--brand-primary)] group-hover:text-white dark:border-[var(--brand-primary)]/45 dark:bg-[var(--brand-primary)]/12">
                     <feature.icon className="w-5 h-5" />
                   </div>
                   <div>
