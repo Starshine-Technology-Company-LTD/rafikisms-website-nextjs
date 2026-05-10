@@ -25,6 +25,7 @@ export const MOBILE_NAV_SECTIONS: MobileNavSection[] = [
   {
     label: "RESOURCES",
     links: [
+      { label: "Careers", href: "/careers" },
       { label: "Docs", href: "/docs" },
       { label: "API reference", href: "/docs/send-sms" },
       { label: "Status", href: "/#contact" },

@@ -27,6 +27,7 @@ export const landingContent = {
       { name: "About", href: "#about" },
       { name: "Features", href: "#features" },
       { name: "Approach", href: "#approach" },
+      { name: "Careers", href: "/careers" },
       { name: "Docs", href: "/docs" },
       { name: "Developers", href: "#developers" },
       { name: "Pricing", href: "#pricing" },

@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-} from "framer-motion";
+import { motion } from "framer-motion";
+import { Check } from "lucide-react";
 
+/* ─── Feature data ──────────────────────────────────────────── */
 const FEATURES = [
   {
-    index: "01",
-    title: "Human support, local to Tanzania",
+    id: "support",
+    tag: "Local support",
+    title: "Human support,\nlocal to Tanzania",
     description:
       "Onboarding, training, and day-to-day assistance from a team that speaks your language — in English and Swahili.",
     points: [
@@ -18,10 +16,13 @@ const FEATURES = [
       "Dedicated onboarding engineer",
       "98% customer satisfaction",
     ],
+    visual: "support",
+    wide: true,
   },
   {
-    index: "02",
-    title: "Reliable delivery at scale",
+    id: "delivery",
+    tag: "Reliability",
+    title: "Reliable delivery\nat scale",
     description:
       "Direct carrier integrations with Vodacom, Airtel, and Tigo ensure your messages arrive — every time.",
     points: [
@@ -29,10 +30,13 @@ const FEATURES = [
       "Real-time delivery receipts",
       "Automatic failover routing",
     ],
+    visual: "delivery",
+    wide: false,
   },
   {
-    index: "03",
-    title: "Simple, transparent pricing",
+    id: "pricing",
+    tag: "Pricing",
+    title: "Simple, transparent\npricing",
     description:
       "Eight tiers in TSH. No hidden fees, no surprises. Pay only for what you send.",
     points: [
@@ -40,10 +44,13 @@ const FEATURES = [
       "No monthly minimums",
       "Volume discounts from Tier 3",
     ],
+    visual: "pricing",
+    wide: false,
   },
   {
-    index: "04",
-    title: "Built-in analytics dashboard",
+    id: "analytics",
+    tag: "Analytics",
+    title: "Built-in analytics\ndashboard",
     description:
       "Track delivery rates, campaign performance, and cost-per-message in real time.",
     points: [
@@ -51,236 +58,288 @@ const FEATURES = [
       "Campaign-level reporting",
       "Export to CSV / PDF",
     ],
+    visual: "analytics",
+    wide: true,
   },
 ] as const;
 
-const TOTAL = FEATURES.length;
+/* ─── Decorative visuals (CSS-only, theme-aware) ─────────────── */
+function SupportVisual() {
+  return (
+    <div className="relative flex h-full w-full items-center justify-center">
+      <div className="absolute inset-0 bg-gradient-to-br from-brand/8 to-transparent" />
+      <div className="relative flex flex-col gap-3">
+        {[
+          { label: "Hello! Habari yako?", align: "left", delay: 0 },
+          { label: "Nimefurahi kukusaidia.", align: "right", delay: 0.1 },
+          { label: "Message delivered ✓", align: "left", delay: 0.2 },
+        ].map((bubble) => (
+          <motion.div
+            key={bubble.label}
+            initial={{ opacity: 0, x: bubble.align === "left" ? -12 : 12 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: bubble.delay + 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className={`flex ${bubble.align === "right" ? "justify-end" : "justify-start"}`}
+          >
+            <span
+              className={`max-w-[160px] rounded-2xl px-3.5 py-2 text-[11px] font-medium leading-snug shadow-sm ${
+                bubble.align === "left"
+                  ? "rounded-tl-sm bg-muted text-foreground/80"
+                  : "rounded-tr-sm bg-brand text-white"
+              }`}
+            >
+              {bubble.label}
+            </span>
+          </motion.div>
+        ))}
+        <div className="mt-1 flex items-center gap-1.5 pl-1">
+          <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand/60 [animation-delay:0ms]" />
+          <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand/60 [animation-delay:150ms]" />
+          <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand/60 [animation-delay:300ms]" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-export default function ShowcaseSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+function DeliveryVisual() {
+  const carriers = ["Vodacom", "Airtel", "Tigo", "Halotel", "TTCL"];
+  return (
+    <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 px-4">
+      <div className="absolute inset-0 bg-gradient-to-b from-brand/6 to-transparent" />
+      <div className="relative flex w-full flex-col gap-2">
+        {carriers.map((name, i) => (
+          <motion.div
+            key={name}
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: i * 0.07 + 0.3, ease: [0.22, 1, 0.36, 1] }}
+            style={{ originX: 0 }}
+            className="flex items-center gap-2.5"
+          >
+            <span className="w-14 shrink-0 text-[10px] font-medium text-muted-foreground">
+              {name}
+            </span>
+            <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-foreground/8">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: `${85 + i * 2}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.07 + 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-y-0 left-0 rounded-full bg-brand"
+              />
+            </div>
+            <span className="w-10 shrink-0 text-right text-[10px] font-semibold text-brand">
+              {97 - i * 0.4}%
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+function PricingVisual() {
+  const tiers = [
+    { name: "Starter", price: "30", vol: "≤10K" },
+    { name: "Growth", price: "25", vol: "≤25K" },
+    { name: "Business", price: "23", vol: "≤50K" },
+    { name: "Pro", price: "20", vol: "≤100K" },
+  ];
+  return (
+    <div className="relative flex h-full w-full flex-col items-stretch justify-center gap-2 px-3 py-2">
+      <div className="absolute inset-0 bg-gradient-to-tr from-brand/6 to-transparent" />
+      {tiers.map((tier, i) => (
+        <motion.div
+          key={tier.name}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: i * 0.08 + 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="relative flex items-center justify-between rounded-xl border border-foreground/8 bg-background/70 px-3 py-2 backdrop-blur-sm"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-semibold text-foreground">{tier.name}</span>
+            <span className="rounded-full bg-muted px-1.5 py-0.5 text-[9px] text-muted-foreground">
+              {tier.vol}
+            </span>
+          </div>
+          <span className="font-mono text-[12px] font-bold text-brand">{tier.price} TSH/SMS</span>
+        </motion.div>
+      ))}
+      <p className="text-center text-[9px] text-muted-foreground">+ 4 more tiers for higher volumes</p>
+    </div>
+  );
+}
 
-  useEffect(() => {
-    const onChange = (v: number) => {
-      const raw = v * TOTAL;
-      const clamped = Math.min(Math.floor(raw), TOTAL - 1);
-      setActiveIndex(Math.max(0, clamped));
-    };
-    onChange(scrollYProgress.get());
-    return scrollYProgress.on("change", onChange);
-  }, [scrollYProgress]);
+function AnalyticsVisual() {
+  const bars = [62, 78, 55, 91, 84, 96, 88];
+  const labels = ["M", "T", "W", "T", "F", "S", "S"];
+  return (
+    <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 px-6 py-4">
+      <div className="absolute inset-0 bg-gradient-to-tl from-brand/6 to-transparent" />
+      <div className="relative w-full">
+        {/* Mini stat row */}
+        <div className="mb-4 grid grid-cols-3 gap-2">
+          {[
+            { val: "99.7%", lbl: "Delivered" },
+            { val: "<4s", lbl: "Avg delay" },
+            { val: "1.2M", lbl: "This month" },
+          ].map((s) => (
+            <div key={s.lbl} className="rounded-lg border border-foreground/8 bg-background/60 p-2 text-center backdrop-blur-sm">
+              <div className="text-[13px] font-bold text-brand">{s.val}</div>
+              <div className="text-[9px] text-muted-foreground">{s.lbl}</div>
+            </div>
+          ))}
+        </div>
+        {/* Bar chart */}
+        <div className="flex h-16 items-end justify-between gap-1.5">
+          {bars.map((h, i) => (
+            <div key={i} className="flex flex-1 flex-col items-center gap-1">
+              <motion.div
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.06 + 0.2, ease: [0.22, 1, 0.36, 1] }}
+                style={{ height: `${h}%`, originY: 1 }}
+                className={`w-full rounded-t-sm ${i === 5 ? "bg-brand" : "bg-brand/30"}`}
+              />
+              <span className="text-[8px] text-muted-foreground">{labels[i]}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  const feature = FEATURES[activeIndex];
+const visuals: Record<string, React.FC> = {
+  support: SupportVisual,
+  delivery: DeliveryVisual,
+  pricing: PricingVisual,
+  analytics: AnalyticsVisual,
+};
+
+/* ─── Card ───────────────────────────────────────────────────── */
+function FeatureCard({
+  feature,
+  index,
+}: {
+  feature: (typeof FEATURES)[number];
+  index: number;
+}) {
+  const Visual = visuals[feature.visual];
 
   return (
-    <section id="showcase">
-      {/* Header — scrolls away above the pinned zone */}
-      <div className="bg-background px-6 pb-10 pt-24 text-center md:pt-28">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-          Showcase
-        </p>
-        <h2 className="font-display mx-auto max-w-2xl text-4xl font-light leading-tight text-foreground md:text-5xl lg:text-6xl">
-          Everything you need to
-          <br />
-          run SMS at scale.
-        </h2>
-        <p className="mx-auto mt-5 max-w-md text-lg text-muted-foreground">
-          Purpose-built for Tanzania, proven in production.
-        </p>
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.55, delay: (index % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-card shadow-sm transition-shadow duration-300 hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.16)] dark:hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.4)] ${
+        feature.wide ? "sm:flex-row" : "sm:flex-col"
+      }`}
+    >
+      {/* Content zone */}
+      <div className={`flex flex-col justify-between p-7 ${feature.wide ? "sm:w-[52%]" : "flex-1"}`}>
+        <div>
+          <span className="mb-4 inline-flex items-center rounded-full border border-brand/20 bg-brand/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand">
+            {feature.tag}
+          </span>
+          <h3 className="mb-3 whitespace-pre-line text-xl font-semibold leading-[1.2] tracking-tight text-foreground md:text-[22px]">
+            {feature.title}
+          </h3>
+          <p className="text-[13px] leading-relaxed text-muted-foreground">
+            {feature.description}
+          </p>
+        </div>
+        <ul className="mt-5 space-y-2">
+          {feature.points.map((pt) => (
+            <li key={pt} className="flex items-start gap-2 text-[12.5px] text-foreground/80">
+              <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-brand/15">
+                <Check className="h-2.5 w-2.5 text-brand" strokeWidth={3} />
+              </span>
+              {pt}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {/* Tall scroll budget — sticky child pins for TOTAL × 100vh */}
+      {/* Visual zone */}
       <div
-        ref={containerRef}
-        className="relative bg-background"
-        style={{ height: `${TOTAL * 100}vh` }}
+        className={`relative overflow-hidden bg-muted/30 dark:bg-muted/20 ${
+          feature.wide
+            ? "h-52 sm:h-auto sm:flex-1"
+            : "h-48"
+        }`}
       >
-        <div className="sticky top-0 flex h-screen w-full items-center justify-center px-6 md:px-12">
-          {/* Progress — brand active, muted inactive (theme-aware) */}
-          <div className="absolute left-1/2 top-8 z-10 flex -translate-x-1/2 items-center gap-2">
-            {FEATURES.map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{ width: i === activeIndex ? 24 : 6 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className={`h-1.5 shrink-0 rounded-full ${
-                  i === activeIndex
-                    ? "bg-brand-strong dark:bg-brand"
-                    : "bg-muted-foreground/35 dark:bg-muted-foreground/45"
-                }`}
-              />
-            ))}
-          </div>
+        <Visual />
+        {/* Subtle border glow on hover */}
+        <div className="pointer-events-none absolute inset-0 opacity-0 ring-1 ring-inset ring-brand/20 transition-opacity duration-300 group-hover:opacity-100 rounded-inherit" />
+      </div>
+    </motion.div>
+  );
+}
 
-          {/* One card — matches Features / Pricing surfaces */}
-          <div className="flex h-[75vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-foreground/10 bg-card shadow-sm md:flex-row dark:border-border dark:bg-card">
-            <div className="flex flex-1 flex-col justify-center overflow-y-auto p-8 md:p-12 lg:p-14">
-              <motion.div
-                key={`counter-${activeIndex}`}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="mb-8 inline-flex w-fit items-center gap-1.5 rounded-full border border-foreground/10 bg-muted/60 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm dark:bg-muted/40"
-              >
-                <span className="font-mono font-semibold text-foreground">
-                  {feature.index}
-                </span>
-                <span>/</span>
-                <span className="font-mono">{String(TOTAL).padStart(2, "0")}</span>
-              </motion.div>
+/* ─── Section ─────────────────────────────────────────────────── */
+export default function ShowcaseSection() {
+  return (
+    <section id="showcase" className="relative scroll-mt-24 bg-background py-8 lg:scroll-mt-28 lg:py-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
 
-              <AnimatePresence mode="wait">
-                <motion.h3
-                  key={`title-${activeIndex}`}
-                  initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -20, filter: "blur(4px)" }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="mb-5 max-w-sm font-display text-3xl font-light leading-tight text-foreground md:text-4xl"
-                >
-                  {feature.title}
-                </motion.h3>
-              </AnimatePresence>
-
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={`desc-${activeIndex}`}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: 0.05,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="mb-8 max-w-sm text-base leading-relaxed text-muted-foreground"
-                >
-                  {feature.description}
-                </motion.p>
-              </AnimatePresence>
-
-              <AnimatePresence mode="wait">
-                <motion.ul
-                  key={`points-${activeIndex}`}
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  variants={{
-                    hidden: {},
-                    show: {
-                      transition: {
-                        staggerChildren: 0.07,
-                        delayChildren: 0.1,
-                      },
-                    },
-                  }}
-                  className="mb-10 space-y-3"
-                >
-                  {feature.points.map((point) => (
-                    <motion.li
-                      key={point}
-                      variants={{
-                        hidden: { opacity: 0, x: -10 },
-                        show: {
-                          opacity: 1,
-                          x: 0,
-                          transition: {
-                            duration: 0.35,
-                            ease: [0.22, 1, 0.36, 1],
-                          },
-                        },
-                      }}
-                      className="flex items-center gap-3 text-sm text-foreground/90"
-                    >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/15 text-brand-strong">
-                        <svg
-                          width="10"
-                          height="8"
-                          viewBox="0 0 10 8"
-                          fill="none"
-                          aria-hidden
-                        >
-                          <path
-                            d="M1 4L3.5 6.5L9 1"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </span>
-                      {point}
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </AnimatePresence>
-
-              <motion.a
-                key={`cta-${activeIndex}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                href="#pricing"
-                className="group inline-flex w-fit items-center gap-2 text-sm font-medium text-brand transition-opacity hover:opacity-90"
-              >
-                See it in action
-                <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  →
-                </span>
-              </motion.a>
-            </div>
-
-            {/* RIGHT — crossfade; surfaces follow theme */}
-            <div className="relative hidden flex-1 overflow-hidden md:block">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`visual-${activeIndex}`}
-                  initial={{ opacity: 0, scale: 1.04 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0 flex items-center justify-center bg-muted/30 dark:bg-muted/20"
-                >
-                  <div
-                    className="h-56 w-56 rounded-full bg-brand/25 opacity-70 blur-3xl dark:bg-brand/20 dark:opacity-80"
-                    aria-hidden
-                  />
-                  <div className="pointer-events-none absolute inset-8 rounded-2xl border border-dashed border-foreground/15 dark:border-foreground/20" />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-
-          <AnimatePresence>
-            {activeIndex === 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 1.2, duration: 0.5 }}
-                className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5"
-              >
-                <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                  Scroll
-                </span>
-                <motion.div
-                  animate={{ y: [0, 5, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.4,
-                    ease: "easeInOut",
-                  }}
-                  className="h-6 w-px bg-gradient-to-b from-muted-foreground/50 to-transparent"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+        {/* Header */}
+        <div className="mb-10 text-center md:mb-12">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+            className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-brand"
+          >
+            Showcase
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.07 }}
+            className="font-display mx-auto max-w-2xl text-3xl font-light leading-[1.08] tracking-tight text-foreground sm:text-4xl md:text-[2.75rem]"
+          >
+            Everything you need to
+            <br />
+            <span className="text-brand">run SMS at scale.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: 0.14 }}
+            className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-[15px]"
+          >
+            Purpose-built for Tanzania, proven in production.
+          </motion.p>
         </div>
+
+        {/* Bento grid — wide / narrow alternating pattern */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:gap-5">
+          {/* Row 1 */}
+          <div className="lg:col-span-7">
+            <FeatureCard feature={FEATURES[0]} index={0} />
+          </div>
+          <div className="lg:col-span-5">
+            <FeatureCard feature={FEATURES[1]} index={1} />
+          </div>
+          {/* Row 2 — reversed width */}
+          <div className="lg:col-span-5">
+            <FeatureCard feature={FEATURES[2]} index={2} />
+          </div>
+          <div className="lg:col-span-7">
+            <FeatureCard feature={FEATURES[3]} index={3} />
+          </div>
+        </div>
+
       </div>
     </section>
   );

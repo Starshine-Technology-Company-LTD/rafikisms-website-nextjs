@@ -1,187 +1,140 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useScroll } from "framer-motion";
+import { motion } from "framer-motion";
+import { Check, Compass, Plug2, Rocket, TrendingUp } from "lucide-react";
 import { APPROACH_STEPS } from "./approach.types";
-import { StepContent } from "./StepContent";
-import { StepMockup } from "./StepMockup";
-import { WipeOverlay } from "./WipeOverlay";
 
-const TOTAL = APPROACH_STEPS.length;
+const stepIcons = {
+  onboarding: Compass,
+  code: Plug2,
+  launch: Rocket,
+  analytics: TrendingUp,
+} as const;
 
-/** Scroll distance per step — keep total track short so the section doesn’t feel like endless blank canvas. */
-const STEP_SCROLL_VH = 48;
+const stepColors = [
+  { ring: "ring-brand/20", icon: "bg-brand/10 text-brand", line: "from-brand/30 to-brand/10" },
+  { ring: "ring-brand/25", icon: "bg-brand/15 text-brand", line: "from-brand/25 to-brand/10" },
+  { ring: "ring-brand/30", icon: "bg-brand/20 text-brand", line: "from-brand/20 to-brand/5" },
+  { ring: "ring-brand/35", icon: "bg-brand/25 text-brand", line: "from-brand/15 to-transparent" },
+];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
 export default function ApproachSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  const [isWiping, setIsWiping] = useState(false);
-
-  const isWipingRef = useRef(false);
-  const lastTriggeredRef = useRef(0);
-  const timersRef = useRef<{
-    mid?: ReturnType<typeof setTimeout>;
-    end?: ReturnType<typeof setTimeout>;
-  }>({});
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  const triggerWipe = useCallback((nextStep: number) => {
-    if (isWipingRef.current) return;
-    if (nextStep === lastTriggeredRef.current) return;
-
-    lastTriggeredRef.current = nextStep;
-    isWipingRef.current = true;
-    setIsWiping(true);
-
-    if (timersRef.current.mid) clearTimeout(timersRef.current.mid);
-    if (timersRef.current.end) clearTimeout(timersRef.current.end);
-
-    timersRef.current.mid = setTimeout(() => {
-      setActive(nextStep);
-    }, 300);
-
-    timersRef.current.end = setTimeout(() => {
-      setIsWiping(false);
-      isWipingRef.current = false;
-    }, 650);
-  }, []);
-
-  useEffect(() => {
-    const stepFromProgress = (v: number) =>
-      Math.max(0, Math.min(Math.floor(v * TOTAL), TOTAL - 1));
-
-    lastTriggeredRef.current = stepFromProgress(scrollYProgress.get());
-    setActive(lastTriggeredRef.current);
-
-    const onChange = (latest: number) => {
-      const clamped = stepFromProgress(latest);
-      if (clamped === lastTriggeredRef.current) return;
-      triggerWipe(clamped);
-    };
-
-    return scrollYProgress.on("change", onChange);
-  }, [scrollYProgress, triggerWipe]);
-
-  useEffect(() => {
-    return () => {
-      if (timersRef.current.mid) clearTimeout(timersRef.current.mid);
-      if (timersRef.current.end) clearTimeout(timersRef.current.end);
-    };
-  }, []);
-
-  const step = APPROACH_STEPS[active];
-
   return (
     <section
       id="approach"
       className="relative scroll-mt-24 bg-background py-8 lg:scroll-mt-28 lg:py-12"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        {/* Boxed shell — matches HowItWorks / site cards; no overflow-hidden (sticky-safe). */}
         <div className="rounded-3xl border border-foreground/10 bg-card text-card-foreground shadow-[0_24px_60px_-36px_rgba(0,0,0,0.18)] dark:shadow-[0_24px_60px_-36px_rgba(0,0,0,0.45)]">
-          {/* Compact header */}
-          <div className="border-b border-foreground/10 px-5 py-5 text-center md:px-8 md:py-6">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand md:mb-3">
+
+          {/* ── Header ── */}
+          <div className="border-b border-foreground/10 px-6 py-8 text-center md:px-10 md:py-10">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45 }}
+              className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-brand"
+            >
               Our Approach
-            </p>
-            <h2 className="font-display mx-auto max-w-2xl text-3xl font-light leading-[1.08] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-[2.75rem]">
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.07 }}
+              className="font-display mx-auto max-w-2xl text-3xl font-light leading-[1.08] tracking-tight text-foreground sm:text-4xl md:text-[2.75rem]"
+            >
               A collaboration journey,
               <br />
               <span className="text-brand">from concept to delivery</span>
-            </h2>
-            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground md:mt-4 md:text-[15px]">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.14 }}
+              className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-[15px]"
+            >
               Four stages. One seamless handoff. Built for Tanzanian businesses.
-            </p>
+            </motion.p>
           </div>
 
-          <div
-            ref={containerRef}
-            style={{
-              height: `${TOTAL * STEP_SCROLL_VH}vh`,
-            }}
-            className="relative"
-          >
-            {/* Flex: main band + HUD in document flow (no absolute footer gap). */}
-            <div className="sticky top-0 flex h-[100dvh] min-h-0 w-full flex-col bg-card">
-              <WipeOverlay isWiping={isWiping} />
+          {/* ── Step cards ── */}
+          <div className="px-6 py-10 md:px-10 md:py-12">
 
-              <div className="relative z-10 flex min-h-0 flex-1 flex-col">
-                {/* Start-aligned — avoids huge empty bands above/below from justify-center */}
-                <div className="relative flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain px-5 pb-3 pt-4 md:px-8 md:pb-4 md:pt-5 lg:px-10">
-                  <div
-                    className="pointer-events-none absolute bottom-2 right-0 select-none font-bold leading-none md:bottom-4"
-                    style={{
-                      fontSize: "clamp(96px, 18vw, 220px)",
-                      color: "currentColor",
-                      opacity: 0.045,
-                      letterSpacing: "-0.05em",
-                      lineHeight: 0.85,
-                    }}
-                    aria-hidden
+            {/* Desktop connector line */}
+            <div className="relative hidden lg:block">
+              <div className="absolute left-[calc(12.5%+1.25rem)] right-[calc(12.5%+1.25rem)] top-[2.75rem] h-px bg-gradient-to-r from-transparent via-brand/25 to-transparent" />
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+              {APPROACH_STEPS.map((step, i) => {
+                const Icon = stepIcons[step.mockupType];
+                const color = stepColors[i];
+
+                return (
+                  <motion.div
+                    key={step.number}
+                    custom={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-60px" }}
+                    className="group relative flex flex-col rounded-2xl border border-foreground/8 bg-background/60 p-6 transition-shadow duration-300 hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.14)] dark:hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.35)]"
                   >
-                    {step.number}
-                  </div>
-
-                  <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 items-start gap-5 md:grid-cols-2 md:gap-x-10 md:gap-y-5 md:items-start">
-                    <StepContent step={step} />
-
-                    <div className="hidden justify-center md:flex md:justify-end">
-                      <StepMockup type={step.mockupType} />
+                    {/* Connector dot (desktop) */}
+                    <div className="absolute -top-[2.825rem] left-1/2 hidden -translate-x-1/2 lg:flex">
+                      <span className="h-2.5 w-2.5 rounded-full bg-brand/40 ring-2 ring-brand/20 ring-offset-2 ring-offset-card transition-colors duration-300 group-hover:bg-brand group-hover:ring-brand/40" />
                     </div>
-                  </div>
-                </div>
 
-                <div className="relative z-20 shrink-0 border-t border-foreground/10 bg-card/95 backdrop-blur-sm">
-                  <div className="flex px-5 pb-2.5 pt-2.5 md:px-8 md:pb-3 md:pt-3">
-                    {APPROACH_STEPS.map((s, i) => (
-                      <div
-                        key={s.number}
-                        className="flex flex-1 flex-col gap-0.5 transition-opacity duration-500"
-                        style={{ opacity: i === active ? 1 : 0.35 }}
-                      >
-                        <span
-                          className={`text-[9px] font-semibold uppercase tracking-[0.18em] ${
-                            i === active ? "text-brand" : "text-muted-foreground"
-                          }`}
-                        >
-                          {s.number}
-                        </span>
-                        <span className="hidden text-[10px] font-medium text-foreground md:block">
-                          {s.tag}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+                    {/* Tag pill */}
+                    <span className="mb-4 inline-flex w-fit items-center rounded-full border border-brand/20 bg-brand/8 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand">
+                      {step.tag}
+                    </span>
 
-                  <div className="h-px w-full bg-foreground/10">
-                    <div
-                      className="h-full bg-brand transition-all duration-700"
-                      style={{
-                        width: `${((active + 1) / TOTAL) * 100}%`,
-                        transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
+                    {/* Icon */}
+                    <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl ring-1 ${color.ring} ${color.icon} transition-transform duration-300 group-hover:scale-105`}>
+                      <Icon className="h-5 w-5" strokeWidth={1.6} />
+                    </div>
 
-              {active === 0 && (
-                <div className="pointer-events-none absolute bottom-20 right-4 z-30 flex flex-col items-center gap-1.5 opacity-40 md:bottom-24 md:right-7">
-                  <span
-                    className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground"
-                    style={{ writingMode: "vertical-rl" }}
-                  >
-                    Scroll
-                  </span>
-                  <div className="h-8 w-px animate-pulse bg-gradient-to-b from-foreground/35 to-transparent md:h-9" />
-                </div>
-              )}
+                    {/* Title */}
+                    <h3 className="mb-2 whitespace-pre-line text-[17px] font-semibold leading-[1.25] tracking-tight text-foreground">
+                      {step.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="mb-5 text-[13px] leading-relaxed text-muted-foreground">
+                      {step.description}
+                    </p>
+
+                    {/* Points */}
+                    <ul className="mt-auto space-y-2">
+                      {step.points.map((point) => (
+                        <li key={point} className="flex items-start gap-2 text-[12.5px] text-foreground/75">
+                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" strokeWidth={2.5} />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Subtle bottom teal glow on hover */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px rounded-b-2xl bg-gradient-to-r from-transparent via-brand/0 to-transparent transition-all duration-500 group-hover:via-brand/40" />
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
+
         </div>
       </div>
     </section>

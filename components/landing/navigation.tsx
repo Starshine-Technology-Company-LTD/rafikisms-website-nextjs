@@ -63,6 +63,9 @@ function navLinkActive(
     if (href === "/docs") {
       return pathname === "/docs" || pathname.startsWith("/docs/");
     }
+    if (href === "/careers") {
+      return pathname === "/careers" || pathname.startsWith("/careers/");
+    }
     return pathname === href || pathname.startsWith(`${href}/`);
   }
   return activeSection === linkName;
@@ -193,7 +196,7 @@ export function Navigation() {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-5 lg:gap-7">
             {navLinks.map((link, index) => {
               const isActive = navLinkActive(
                 pathname,
@@ -229,7 +232,7 @@ export function Navigation() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
             <ThemeToggle />
             <a 
               href="#" 
