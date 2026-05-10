@@ -60,12 +60,9 @@ function navLinkActive(
   linkName: string
 ) {
   if (href.startsWith("/") && !href.includes("#")) {
-    if (href === "/docs") {
-      return pathname === "/docs" || pathname.startsWith("/docs/");
-    }
-    if (href === "/careers") {
-      return pathname === "/careers" || pathname.startsWith("/careers/");
-    }
+    if (href === "/") return pathname === "/";
+    if (href === "/docs") return pathname === "/docs" || pathname.startsWith("/docs/");
+    if (href === "/careers") return pathname === "/careers" || pathname.startsWith("/careers/");
     return pathname === href || pathname.startsWith(`${href}/`);
   }
   return activeSection === linkName;
@@ -196,7 +193,7 @@ export function Navigation() {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-5 lg:gap-7">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6">
             {navLinks.map((link, index) => {
               const isActive = navLinkActive(
                 pathname,

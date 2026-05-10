@@ -24,14 +24,15 @@ export const landingContent = {
   },
   navigation: {
     links: [
-      { name: "About", href: "#about" },
+      { name: "Home", href: "/" },
       { name: "Features", href: "#features" },
       { name: "Approach", href: "#approach" },
-      { name: "Careers", href: "/careers" },
-      { name: "Docs", href: "/docs" },
       { name: "Developers", href: "#developers" },
+      { name: "Docs", href: "/docs" },
       { name: "Pricing", href: "#pricing" },
+      { name: "About", href: "#about" },
       { name: "Team", href: "#team" },
+      { name: "Careers", href: "/careers" },
     ],
     signInLabel: "Vendor sign in",
     ctaLabel: "Start sending",

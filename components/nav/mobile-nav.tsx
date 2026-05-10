@@ -16,19 +16,22 @@ export const MOBILE_NAV_SECTIONS: MobileNavSection[] = [
   {
     label: "PRODUCT",
     links: [
+      { label: "Home", href: "/" },
       { label: "Features", href: "/#features" },
       { label: "Approach", href: "/#approach" },
       { label: "Developers", href: "/#developers" },
       { label: "Pricing", href: "/#pricing" },
+      { label: "About", href: "/#about" },
+      { label: "Team", href: "/#team" },
     ],
   },
   {
     label: "RESOURCES",
     links: [
-      { label: "Careers", href: "/careers" },
       { label: "Docs", href: "/docs" },
       { label: "API reference", href: "/docs/send-sms" },
       { label: "Status", href: "/#contact" },
+      { label: "Careers", href: "/careers" },
     ],
   },
 ];

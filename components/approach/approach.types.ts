@@ -4,68 +4,65 @@ export interface ApproachStep {
   title: string;
   description: string;
   points: string[];
-  mockupType: "onboarding" | "code" | "launch" | "analytics";
+  mockupType: "register" | "kyc" | "approve" | "send";
+  duration: string;
 }
 
 export const APPROACH_STEPS: ApproachStep[] = [
   {
     number: "01",
-    tag: "Discovery",
-    title: "Align before\nyou build",
+    tag: "Register",
+    title: "Create your\nvendor account",
     description:
-      "Align on operators, message types, volumes, and compliance. " +
-      "Decide gateway behaviour and delivery receipt needs before " +
-      "writing a single line of code.",
+      "Sign up in under two minutes. Enter your business name, work email, and contact details. No credit card required to get started.",
     points: [
-      "Stakeholder workshops & success metrics",
-      "Technical constraints mapped to your stack",
-      "Pilot → staging → production rollout plan",
+      "Business email + company name",
+      "No credit card required",
+      "Instant access to sandbox",
     ],
-    mockupType: "onboarding",
+    mockupType: "register",
+    duration: "~2 min",
   },
   {
     number: "02",
-    tag: "Integration",
-    title: "Connect in\nminutes",
+    tag: "KYC",
+    title: "Verify your\nbusiness",
     description:
-      "One REST endpoint. SDKs for Laravel, Node, and Python. " +
-      "A sandbox environment with simulated delivery receipts lets " +
-      "your team test without spending a single shilling.",
+      "Upload your business registration certificate and director's national ID. Our compliance team reviews submissions within one business day.",
     points: [
-      "composer require rafiki/sms",
-      "Webhook simulator for DLR testing",
-      "Postman collection included on signup",
+      "Business registration certificate",
+      "Director national ID / passport",
+      "Reviewed within 1 business day",
     ],
-    mockupType: "code",
+    mockupType: "kyc",
+    duration: "~5 min",
   },
   {
     number: "03",
-    tag: "Launch",
-    title: "Go live with\nconfidence",
+    tag: "Approved",
+    title: "Receive your\ncredentials",
     description:
-      "We handle Sender ID whitelisting with all Tanzanian operators. " +
-      "Your dedicated onboarding engineer stays on the call until your " +
-      "first live message is confirmed delivered.",
+      "Once verified, we activate your vendor account, issue your API key, and assign your approved sender IDs. Ready to test in the sandbox.",
     points: [
-      "Approved across Vodacom, Airtel, Tigo",
-      "Dedicated engineer on first go-live",
-      "98% customer satisfaction on onboarding",
+      "API key issued instantly on approval",
+      "Sender ID activated across all carriers",
+      "Full sandbox access with test credits",
     ],
-    mockupType: "launch",
+    mockupType: "approve",
+    duration: "1 business day",
   },
   {
     number: "04",
-    tag: "Scale",
-    title: "Grow without\nlimits",
+    tag: "Go Live",
+    title: "Start sending\nSMS today",
     description:
-      "Real-time dashboard shows delivery rates, latency, and " +
-      "cost-per-message. Set spend alerts in TSH and export reports " +
-      "for your finance team — all in one place.",
+      "One REST endpoint. Integrate with Laravel, Node, or Python. Your dedicated onboarding engineer stays available until your first live message is confirmed.",
     points: [
-      "Live delivery & latency monitoring",
-      "TSH spend alerts & auto tier upgrades",
-      "CSV / PDF export for finance",
+      "One API call to send to any Tanzanian network",
+      "Dedicated engineer on your first go-live",
+      "Real-time delivery receipts from day one",
     ],
-    mockupType: "analytics",
+    mockupType: "send",
+    duration: "Same day",
   },
 ];
