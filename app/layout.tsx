@@ -40,6 +40,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <ThemeProvider>
+          {/* Page-wide blueprint grid — sits behind every route */}
+          <div aria-hidden className="bg-grid-lines" />
           {children}
           <Analytics />
         </ThemeProvider>
