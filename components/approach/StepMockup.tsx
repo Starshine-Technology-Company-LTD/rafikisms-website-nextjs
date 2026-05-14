@@ -158,7 +158,7 @@ export function StepMockup({ type }: { type: MockupType }) {
               {field("Vodacom + Airtel + Tigo")}
               {label("Message type")}
               {field("Transactional", false)}
-              {btn("Submit for review →")}
+              {btn("Submit for review ->")}
             </div>
           </>
         )}
@@ -330,7 +330,7 @@ export function StepMockup({ type }: { type: MockupType }) {
                   </div>
                 </div>
               ))}
-              {btn("First message delivered ✓", true)}
+              {btn("First message delivered OK", true)}
             </div>
           </>
         )}
@@ -370,7 +370,7 @@ export function StepMockup({ type }: { type: MockupType }) {
                     color: "#0D9488",
                   }}
                 >
-                  ↑ 2.1% this week
+                  ^ 2.1% this week
                 </span>
               </div>
               <div

@@ -35,7 +35,7 @@ export function AboutSection() {
           }`}
         >
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left — copy */}
+            {/* Left - copy */}
             <div className="lg:col-span-7">
               <span className="inline-flex items-center gap-3 font-mono text-xs tracking-widest text-muted-foreground uppercase mb-5">
                 <span className="w-8 h-px bg-foreground/30" />
@@ -77,7 +77,7 @@ export function AboutSection() {
               </div>
             </div>
 
-            {/* Right — floating phone image */}
+            {/* Right - floating phone image */}
             <div className="lg:col-span-5 relative flex items-center justify-center min-h-[320px] lg:min-h-[440px]">
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] lg:w-[340px] lg:h-[340px] rounded-full bg-brand/20 blur-3xl radial-pulse" />

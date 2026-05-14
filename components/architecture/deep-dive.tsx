@@ -16,14 +16,15 @@ export function ArchitectureDeepDive() {
         </AccordionTrigger>
         <AccordionContent className="space-y-4 pb-6 text-sm leading-relaxed text-muted-foreground">
           <p>
-            inbound API → validation → durable write → publish to work queues → SMPP
-            workers with retries, dead-letter paths, and carrier-level back-pressure.
+            {
+              "inbound API -> validation -> durable write -> publish to work queues -> SMPP workers with retries, dead-letter paths, and carrier-level back-pressure."
+            }
           </p>
           <div className="flex flex-wrap gap-2 rounded-lg border border-[var(--brand-primary)]/20 bg-background/60 p-4 font-mono text-[11px] text-[var(--brand-primary)]">
             <QueueChip label="sms.send" />
             <QueueChip label="sms.dlr" />
             <QueueChip label="sms.retry" />
-            <span className="text-muted-foreground">→ workers → gateways</span>
+            <span className="text-muted-foreground">{"-> workers -> gateways"}</span>
           </div>
         </AccordionContent>
       </AccordionItem>
@@ -38,9 +39,9 @@ export function ArchitectureDeepDive() {
           </p>
           <div className="rounded-lg border border-border/50 bg-muted/30 p-4 font-mono text-[11px] leading-relaxed">
             <span className="text-[var(--brand-primary)]">telco</span>
-            <span className="text-muted-foreground"> → </span>
+            <span className="text-muted-foreground">{" -> "}</span>
             <span className="text-blue-400">DLR adapter</span>
-            <span className="text-muted-foreground"> → </span>
+            <span className="text-muted-foreground">{" -> "}</span>
             <span className="text-amber-600/90 dark:text-amber-400">HTTPS callback</span>
           </div>
         </AccordionContent>
@@ -53,9 +54,9 @@ export function ArchitectureDeepDive() {
         <AccordionContent className="pb-6">
           <div className="grid gap-3 sm:grid-cols-3">
             {[
-              { t: "Edge & API", d: "Auth · rate limits · routing" },
-              { t: "Workers", d: "Queues · pools · retries" },
-              { t: "Carriers", d: "SMPP · DLR · observability" },
+              { t: "Edge & API", d: "Auth | rate limits | routing" },
+              { t: "Workers", d: "Queues | pools | retries" },
+              { t: "Carriers", d: "SMPP | DLR | observability" },
             ].map((row) => (
               <div
                 key={row.t}

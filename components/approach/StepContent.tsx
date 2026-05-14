@@ -95,7 +95,7 @@ export function StepContent({ step }: { step: ApproachStep }) {
         >
           See it in action
           <span className="transition-transform duration-200 group-hover:translate-x-1">
-            →
+            {"->"}
           </span>
         </motion.a>
       </motion.div>

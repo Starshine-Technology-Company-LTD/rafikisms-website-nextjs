@@ -9,8 +9,17 @@ import { Button } from "@/components/ui/button";
 import { landingContent } from "./content";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileNav, HamburgerIcon } from "@/components/nav/mobile-nav";
+import { getVendorRegisterUrl, getVendorSignInUrl } from "@/lib/vendor-url";
 
 const navLinks = landingContent.navigation.links;
+
+const DEFAULT_LOGO = "/images/rafiki-logo.png";
+
+export type NavigationProps = {
+  logoSrc?: string | null;
+  vendorSignInUrl?: string;
+  vendorRegisterUrl?: string;
+};
 
 const LOGO_EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -68,8 +77,16 @@ function navLinkActive(
   return activeSection === linkName;
 }
 
-export function Navigation() {
+export function Navigation({
+  logoSrc,
+  vendorSignInUrl: vendorSignInProp,
+  vendorRegisterUrl: vendorRegisterProp,
+}: NavigationProps) {
+  const vendorSignInUrl = vendorSignInProp ?? getVendorSignInUrl();
+  const vendorRegisterUrl = vendorRegisterProp ?? getVendorRegisterUrl();
   const pathname = usePathname();
+  const logo = logoSrc?.trim() || DEFAULT_LOGO;
+  const logoRemote = /^https?:\/\//i.test(logo);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -146,9 +163,9 @@ export function Navigation() {
             isScrolled ? "h-14" : "h-20"
           }`}
         >
-          {/* Logo — staged reveal (full mark: blur → sharp + scale) */}
-          <a
-            href="#"
+          {/* Logo - staged reveal (full mark: blur -> sharp + scale) */}
+          <Link
+            href="/"
             className="group flex items-center rounded-md focus-brand"
             aria-label={landingContent.brand.name}
           >
@@ -178,11 +195,12 @@ export function Navigation() {
                   whileTap={{ scale: 0.94 }}
                 >
                   <Image
-                    src="/images/rafiki-logo.png"
+                    src={logo}
                     alt={landingContent.brand.name}
                     width={200}
                     height={200}
                     priority
+                    unoptimized={logoRemote}
                     className={`w-auto select-none transition-[filter,height] duration-300 group-hover:brightness-110 dark:group-hover:drop-shadow-[0_0_14px_rgba(10,175,160,0.35)] ${
                       isScrolled ? "h-8" : "h-11"
                     }`}
@@ -190,7 +208,7 @@ export function Navigation() {
                 </motion.div>
               </motion.div>
             </motion.div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6">
@@ -231,8 +249,8 @@ export function Navigation() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
             <ThemeToggle />
-            <a 
-              href="#" 
+            <a
+              href={vendorSignInUrl}
               className={`text-foreground/60 hover:text-foreground transition-all duration-300 focus-brand rounded-sm ${
                 isScrolled ? "text-xs" : "text-sm"
               }`}
@@ -245,8 +263,9 @@ export function Navigation() {
               className={`btn-brand rounded-full transition-all duration-300 hover-glow focus-brand ${
                 isScrolled ? "px-4 h-8 text-xs" : "px-6"
               }`}
+              asChild
             >
-              {landingContent.navigation.ctaLabel}
+              <a href={vendorRegisterUrl}>{landingContent.navigation.ctaLabel}</a>
             </Button>
           </div>
 
@@ -271,6 +290,8 @@ export function Navigation() {
       <MobileNav
         open={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
+        vendorSignInUrl={vendorSignInUrl}
+        vendorRegisterUrl={vendorRegisterUrl}
       />
     </header>
     </>

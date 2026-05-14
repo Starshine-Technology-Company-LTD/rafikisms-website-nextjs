@@ -49,7 +49,8 @@ export function DocPager({ slug }: { slug: DocSlug }) {
           href={prev.href}
           className="text-sm text-muted-foreground transition hover:text-[var(--brand-primary)]"
         >
-          ← {prev.title}
+          {"<- "}
+          {prev.title}
         </Link>
       ) : (
         <span />
@@ -59,7 +60,8 @@ export function DocPager({ slug }: { slug: DocSlug }) {
           href={next.href}
           className="text-sm font-medium text-[var(--brand-primary)]"
         >
-          {next.title} →
+          {next.title}
+          {" ->"}
         </Link>
       ) : (
         <span />
@@ -167,7 +169,7 @@ const SEND_SMS_CODE = {
   -d '{"phone":"255712345678","message":"Hello","source_address":"MYBRAND"}'`,
   node: `await fetch("https://api.rafiki.example.com/v1/vendor/send-sms", {\n  method: "POST",\n  headers: {\n    "X-API-Key": process.env.RAFIKI_API_KEY!,\n    "Content-Type": "application/json",\n  },\n  body: JSON.stringify({\n    phone: "255712345678",\n    message: "Hello",\n    source_address: "MYBRAND",\n  }),\n});`,
   python: `import os, requests\nr = requests.post(\n  "https://api.rafiki.example.com/v1/vendor/send-sms",\n  headers={"X-API-Key": os.environ["RAFIKI_API_KEY"]},\n  json={\n    "phone": "255712345678",\n    "message": "Hello",\n    "source_address": "MYBRAND",\n  },\n)\nprint(r.json())`,
-  php: `<?php\n$key = getenv("RAFIKI_API_KEY");\n$payload = json_encode([\n  "phone" => "255712345678",\n  "message" => "Hello",\n  "source_address" => "MYBRAND",\n]);\n// Use your HTTP client of choice — shown condensed for docs.`,
+  php: `<?php\n$key = getenv("RAFIKI_API_KEY");\n$payload = json_encode([\n  "phone" => "255712345678",\n  "message" => "Hello",\n  "source_address" => "MYBRAND",\n]);\n// Use your HTTP client of choice - shown condensed for docs.`,
 };
 
 export function DocSendSms() {

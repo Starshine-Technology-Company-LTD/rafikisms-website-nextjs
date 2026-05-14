@@ -15,8 +15,11 @@ import { DocsSidebar } from "./docs-sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
+import { getVendorSignInUrl } from "@/lib/vendor-url";
+
 export function DocsShell({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const vendorSignInUrl = getVendorSignInUrl();
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
@@ -70,7 +73,7 @@ export function DocsShell({ children }: { children: React.ReactNode }) {
               <Search className="h-3.5 w-3.5" />
               Search
               <kbd className="hidden rounded border border-border bg-muted/80 px-1.5 py-0.5 font-mono text-[10px] lg:inline">
-                ⌘K
+                Cmd+K
               </kbd>
             </Button>
             <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex">
@@ -86,8 +89,8 @@ export function DocsShell({ children }: { children: React.ReactNode }) {
               asChild
               className="rounded-full border-0 bg-[var(--brand-primary)] px-4 text-xs font-medium text-[var(--brand-foreground)] shadow-sm hover:bg-[var(--brand-primary-dk)]"
             >
-              <a href="#" aria-label="Vendor dashboard">
-                Dashboard →
+              <a href={vendorSignInUrl} aria-label="Vendor sign in">
+                {"Dashboard ->"}
               </a>
             </Button>
           </div>

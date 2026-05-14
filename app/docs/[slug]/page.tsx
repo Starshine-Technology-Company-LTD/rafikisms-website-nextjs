@@ -24,10 +24,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const entry = DOC_SEQUENCE.find((d) => d.slug === slug);
-  if (!entry) return { title: "Documentation · Rafiki SMS" };
+  if (!entry) return { title: "Documentation | Rafiki SMS" };
   return {
-    title: `${entry.title} · RafikiAPI Docs`,
-    description: `RafikiAPI — ${entry.title}. Enterprise SMS API documentation.`,
+    title: `${entry.title} | RafikiAPI Docs`,
+    description: `RafikiAPI - ${entry.title}. Enterprise SMS API documentation.`,
   };
 }
 

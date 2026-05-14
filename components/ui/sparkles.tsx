@@ -43,7 +43,7 @@ export function Sparkles({
         }
       })
       .catch(() => {
-        /* ignore — canvas stays blank */
+        /* ignore - canvas stays blank */
       });
     return () => {
       cancelled = true;

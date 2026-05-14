@@ -42,10 +42,10 @@ import { Label } from "@/components/ui/label";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 
-/* ─── Types ─────────────────────────────────────────────────── */
+/* --- Types --------------------------------------------------- */
 type Tab = "overview" | "apply";
 
-/* ─── Job listings ──────────────────────────────────────────── */
+/* --- Job listings -------------------------------------------- */
 const JOBS = [
   {
     id: "backend-engineer",
@@ -64,7 +64,7 @@ const JOBS = [
       "Build and tune queue workers for high-volume message throughput",
       "Integrate with Tanzanian carrier SMPP endpoints and handle DLR callbacks",
       "Write automated tests and lead code reviews",
-      "Own observability — logs, metrics, and alerts",
+      "Own observability - logs, metrics, and alerts",
     ],
     requirements: [
       "3+ years with Laravel or a comparable PHP framework",
@@ -129,7 +129,7 @@ const JOBS = [
       "Strong Linux administration and Bash scripting",
       "Experience with Docker and at least one CI/CD platform",
       "Familiarity with Nginx, queues, and background workers",
-      "On-call comfort — this role has pager duty",
+      "On-call comfort - this role has pager duty",
     ],
     skills: ["Linux", "Docker", "Nginx", "CI/CD"],
     featured: false,
@@ -184,7 +184,7 @@ const JOBS = [
     ],
     requirements: [
       "2+ years in customer success, account management, or technical support",
-      "Fluent in both English and Swahili — this is essential",
+      "Fluent in both English and Swahili - this is essential",
       "Comfortable reading API documentation and basic code samples",
       "Empathetic, patient, and highly organised",
       "Experience with CRM tools",
@@ -225,9 +225,9 @@ const JOBS = [
 
 type Job = (typeof JOBS)[number];
 
-/* ─── Benefits ──────────────────────────────────────────────── */
+/* --- Benefits ------------------------------------------------ */
 const BENEFITS = [
-  { icon: TrendingUp, title: "Grow fast", desc: "Your impact is immediate and measurable — no giant org to navigate." },
+  { icon: TrendingUp, title: "Grow fast", desc: "Your impact is immediate and measurable - no giant org to navigate." },
   { icon: Globe, title: "Local + global scope", desc: "Build infrastructure for Tanzania today and East Africa tomorrow." },
   { icon: Heart, title: "Inclusive culture", desc: "English and Swahili spoken equally. Every background valued." },
   { icon: Zap, title: "Modern tooling", desc: "Laravel, Next.js, TypeScript, Redis. No legacy maintenance marathons." },
@@ -235,7 +235,7 @@ const BENEFITS = [
   { icon: Briefcase, title: "Competitive pay", desc: "Market-rate TSH salaries, performance reviews, and career support." },
 ] as const;
 
-/* ─── Colour maps ────────────────────────────────────────────── */
+/* --- Colour maps ---------------------------------------------- */
 const deptColors: Record<string, string> = {
   Engineering:        "bg-brand/10 text-brand border-brand/20",
   Product:            "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20",
@@ -249,7 +249,7 @@ const remoteColors: Record<string, string> = {
   "On-site":          "bg-foreground/8 text-muted-foreground",
 };
 
-/* ─── Application form schema ────────────────────────────────── */
+/* --- Application form schema ---------------------------------- */
 const schema = z.object({
   firstName:  z.string().min(1, "Required"),
   lastName:   z.string().min(1, "Required"),
@@ -260,7 +260,7 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-/* ─── Application form ───────────────────────────────────────── */
+/* --- Application form ----------------------------------------- */
 function ApplicationForm({ job, onSuccess }: { job: Job; onSuccess: () => void }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -328,7 +328,7 @@ function ApplicationForm({ job, onSuccess }: { job: Job; onSuccess: () => void }
         <Label htmlFor="coverLetter" className="text-[12px] font-medium">Cover letter <span className="text-brand">*</span></Label>
         <Textarea
           id="coverLetter"
-          placeholder={`Tell us why you're excited about this role and what you'd bring to the Rafiki SMS team…`}
+          placeholder={`Tell us why you're excited about this role and what you'd bring to the Rafiki SMS team...`}
           rows={5}
           {...register("coverLetter")}
           className="resize-none text-sm leading-relaxed"
@@ -338,7 +338,7 @@ function ApplicationForm({ job, onSuccess }: { job: Job; onSuccess: () => void }
 
       {/* File upload */}
       <div className="space-y-1.5">
-        <Label className="text-[12px] font-medium">CV / Résumé <span className="text-muted-foreground font-normal">(optional)</span></Label>
+        <Label className="text-[12px] font-medium">CV / Resume <span className="text-muted-foreground font-normal">(optional)</span></Label>
         <input
           ref={fileRef}
           type="file"
@@ -353,7 +353,7 @@ function ApplicationForm({ job, onSuccess }: { job: Job; onSuccess: () => void }
         >
           <Paperclip className="h-4 w-4 shrink-0 text-muted-foreground" />
           <span className="text-[13px] text-muted-foreground">
-            {fileName ?? "Attach PDF, DOC, or DOCX · max 5 MB"}
+            {fileName ?? "Attach PDF, DOC, or DOCX | max 5 MB"}
           </span>
           {fileName && (
             <button
@@ -376,7 +376,7 @@ function ApplicationForm({ job, onSuccess }: { job: Job; onSuccess: () => void }
         {isSubmitting ? (
           <span className="flex items-center gap-2">
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-            Submitting…
+            Submitting...
           </span>
         ) : (
           <span className="flex items-center gap-2">
@@ -393,7 +393,7 @@ function ApplicationForm({ job, onSuccess }: { job: Job; onSuccess: () => void }
   );
 }
 
-/* ─── Success state ──────────────────────────────────────────── */
+/* --- Success state -------------------------------------------- */
 function SuccessState({ job, onClose }: { job: Job; onClose: () => void }) {
   return (
     <motion.div
@@ -447,9 +447,9 @@ function SuccessState({ job, onClose }: { job: Job; onClose: () => void }) {
         <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">What happens next</p>
         {[
           { step: "Application review", time: "Within 5 days" },
-          { step: "Intro call (30 min)", time: "Week 1–2" },
-          { step: "Technical interview", time: "Week 2–3" },
-          { step: "Offer", time: "Week 3–4" },
+          { step: "Intro call (30 min)", time: "Week 1-2" },
+          { step: "Technical interview", time: "Week 2-3" },
+          { step: "Offer", time: "Week 3-4" },
         ].map((s, i) => (
           <div key={s.step} className="flex items-start gap-3">
             <div className="flex flex-col items-center">
@@ -479,7 +479,7 @@ function SuccessState({ job, onClose }: { job: Job; onClose: () => void }) {
   );
 }
 
-/* ─── Job detail sheet ───────────────────────────────────────── */
+/* --- Job detail sheet ----------------------------------------- */
 function JobSheet({ job, open, onClose }: { job: Job | null; open: boolean; onClose: () => void }) {
   const [tab, setTab] = useState<Tab>("overview");
   const [submitted, setSubmitted] = useState(false);
@@ -645,7 +645,7 @@ function JobSheet({ job, open, onClose }: { job: Job | null; open: boolean; onCl
   );
 }
 
-/* ─── Job card ───────────────────────────────────────────────── */
+/* --- Job card ------------------------------------------------- */
 function JobCard({
   job,
   index,
@@ -690,11 +690,11 @@ function JobCard({
         <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
           <MapPin className="h-3 w-3" />{job.location}
         </span>
-        <span className="text-[11px] text-muted-foreground">·</span>
+        <span className="text-[11px] text-muted-foreground"> | </span>
         <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
           <Clock className="h-3 w-3" />{job.type}
         </span>
-        <span className="text-[11px] text-muted-foreground">·</span>
+        <span className="text-[11px] text-muted-foreground"> | </span>
         <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${remoteColors[job.remote]}`}>
           {job.remote}
         </span>
@@ -728,7 +728,7 @@ function JobCard({
   );
 }
 
-/* ─── Page ───────────────────────────────────────────────────── */
+/* --- Page ----------------------------------------------------- */
 export function CareersPage() {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [sheetTab, setSheetTab] = useState<Tab>("overview");
@@ -747,7 +747,7 @@ export function CareersPage() {
     <main className="relative min-h-screen overflow-x-clip bg-background">
       <Navigation />
 
-      {/* ── Hero ─────────────────────────────────────────────── */}
+      {/* -- Hero ----------------------------------------------- */}
       <section className="relative overflow-hidden pb-20 pt-36 md:pb-24 md:pt-44">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.025] dark:opacity-[0.04]"
@@ -788,7 +788,7 @@ export function CareersPage() {
             className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-[17px]"
           >
             Join a small, focused team building the SMS backbone for hundreds of
-            Tanzanian businesses — from fintech to logistics to healthcare.
+            Tanzanian businesses - from fintech to logistics to healthcare.
           </motion.p>
 
           <motion.div
@@ -832,7 +832,7 @@ export function CareersPage() {
         </div>
       </section>
 
-      {/* ── Open roles ───────────────────────────────────────── */}
+      {/* -- Open roles ----------------------------------------- */}
       <section id="open-roles" className="pb-16 md:pb-20">
         <div className="mx-auto max-w-6xl px-6 lg:px-12">
           <div className="mb-10">
@@ -881,7 +881,7 @@ export function CareersPage() {
         </div>
       </section>
 
-      {/* ── Benefits ─────────────────────────────────────────── */}
+      {/* -- Benefits ------------------------------------------- */}
       <section className="border-t border-foreground/8 bg-card/40 py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6 lg:px-12">
           <div className="mb-12 text-center">
@@ -928,7 +928,7 @@ export function CareersPage() {
         </div>
       </section>
 
-      {/* ── Speculative ──────────────────────────────────────── */}
+      {/* -- Speculative ---------------------------------------- */}
       <section className="py-16 md:py-20">
         <div className="mx-auto max-w-2xl px-6 text-center lg:px-12">
           <motion.div
@@ -949,14 +949,14 @@ export function CareersPage() {
               what you&apos;d like to work on.
             </p>
             <a
-              href="mailto:careers@rafiki.sms?subject=General Application — Rafiki SMS"
+              href="mailto:careers@rafiki.sms?subject=General Application - Rafiki SMS"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-medium text-white shadow-sm transition-opacity hover:opacity-90"
             >
               Send a speculative application
               <ExternalLink className="h-3.5 w-3.5" />
             </a>
             <p className="mt-4 text-[11px] text-muted-foreground">
-              careers@rafiki.sms · We reply to every application
+              careers@rafiki.sms | We reply to every application
             </p>
           </motion.div>
         </div>
@@ -964,7 +964,7 @@ export function CareersPage() {
 
       <FooterSection />
 
-      {/* ── Job detail + apply sheet ─────────────────────────── */}
+      {/* -- Job detail + apply sheet --------------------------- */}
       <JobSheet
         job={selectedJob}
         open={sheetOpen}

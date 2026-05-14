@@ -13,7 +13,7 @@ export function AnimatedWave() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const chars = "·∘○◯◌●◉";
+    const chars = ".oO*@0";
     let time = 0;
 
     const resize = () => {

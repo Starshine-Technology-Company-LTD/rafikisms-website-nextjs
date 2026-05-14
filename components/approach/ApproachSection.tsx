@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { APPROACH_STEPS } from "./approach.types";
 
-/* ─── Icon + accent per step ──────────────────────────────────── */
+/* --- Icon + accent per step ------------------------------------ */
 const stepConfig = {
   register: {
     Icon: UserPlus,
@@ -41,7 +41,7 @@ const stepConfig = {
   },
 } as const;
 
-/* ─── Registration mockup (right-side visual) ────────────────── */
+/* --- Registration mockup (right-side visual) ------------------ */
 function RegisterMockup() {
   return (
     <div className="relative mx-auto w-full max-w-[240px] rounded-2xl border border-foreground/10 bg-background shadow-lg">
@@ -63,7 +63,7 @@ function RegisterMockup() {
           </div>
         ))}
         <div className="mt-1 rounded-lg bg-brand px-3 py-2 text-center">
-          <p className="text-[11px] font-semibold text-white">Create account →</p>
+          <p className="text-[11px] font-semibold text-white">{"Create account ->"}</p>
         </div>
       </div>
     </div>
@@ -115,7 +115,7 @@ function ApproveMockup() {
         <div>
           <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">Your API key</p>
           <div className="flex items-center gap-1.5 rounded-lg border border-foreground/10 bg-muted/40 px-2.5 py-2">
-            <p className="font-mono text-[10px] text-foreground">sk_vendor_••••••••</p>
+            <p className="font-mono text-[10px] text-foreground">sk_vendor_********</p>
             <span className="ml-auto rounded bg-brand/10 px-1.5 py-0.5 text-[8px] font-medium text-brand">Copy</span>
           </div>
         </div>
@@ -151,11 +151,11 @@ function SendMockup() {
           <Check className="h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" strokeWidth={2.5} />
           <div>
             <p className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">Message delivered</p>
-            <p className="text-[9px] text-muted-foreground">Vodacom · 1.2s · AFYACONNECT</p>
+            <p className="text-[9px] text-muted-foreground">Vodacom | 1.2s | AFYACONNECT</p>
           </div>
         </div>
         <div className="text-center">
-          <p className="text-[10px] text-muted-foreground">🎉 Your first live SMS</p>
+          <p className="text-[10px] text-muted-foreground"> Your first live SMS</p>
         </div>
       </div>
     </div>
@@ -169,7 +169,7 @@ const mockups = {
   send:     SendMockup,
 };
 
-/* ─── Step row ───────────────────────────────────────────────── */
+/* --- Step row ------------------------------------------------- */
 function StepRow({
   step,
   index,
@@ -253,7 +253,7 @@ function StepRow({
   );
 }
 
-/* ─── Section ─────────────────────────────────────────────────── */
+/* --- Section --------------------------------------------------- */
 export default function ApproachSection() {
   return (
     <section
@@ -262,7 +262,7 @@ export default function ApproachSection() {
     >
       <div className="mx-auto max-w-6xl px-6 lg:px-12">
 
-        {/* ── Header ── */}
+        {/* -- Header -- */}
         <div className="mb-16 text-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -291,7 +291,7 @@ export default function ApproachSection() {
             transition={{ duration: 0.45, delay: 0.14 }}
             className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground md:text-[15px]"
           >
-            Getting started with Rafiki SMS is simple. Four easy steps — from creating
+            Getting started with Rafiki SMS is simple. Four easy steps - from creating
             your account to sending your first live SMS in Tanzania.
           </motion.p>
 
@@ -314,7 +314,7 @@ export default function ApproachSection() {
                     <span className="hidden text-muted-foreground sm:inline">{s.tag}</span>
                   </div>
                   {i < APPROACH_STEPS.length - 1 && (
-                    <span className="text-foreground/20">›</span>
+                    <span className="text-foreground/20">{'>'}</span>
                   )}
                 </div>
               );
@@ -322,7 +322,7 @@ export default function ApproachSection() {
           </motion.div>
         </div>
 
-        {/* ── Steps ── */}
+        {/* -- Steps -- */}
         <div className="space-y-20 lg:space-y-28">
           {APPROACH_STEPS.map((step, i) => (
             <StepRow
@@ -334,7 +334,7 @@ export default function ApproachSection() {
           ))}
         </div>
 
-        {/* ── CTA ── */}
+        {/* -- CTA -- */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

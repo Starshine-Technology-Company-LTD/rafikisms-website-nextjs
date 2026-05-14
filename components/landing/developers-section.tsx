@@ -116,7 +116,7 @@ export function DevelopersSection() {
             </div>
           </div>
           
-          {/* Right: Code block — min-w-0 + overflow-x-auto so long curl lines stay inside the viewport */}
+          {/* Right: Code block - min-w-0 + overflow-x-auto so long curl lines stay inside the viewport */}
           <div
             className={`min-w-0 w-full max-w-full lg:sticky lg:top-32 transition-all duration-700 delay-200 ${
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"

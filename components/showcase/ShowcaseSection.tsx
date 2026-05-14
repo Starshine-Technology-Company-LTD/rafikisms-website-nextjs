@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
-/* ─── Feature data ──────────────────────────────────────────── */
+/* --- Feature data -------------------------------------------- */
 const FEATURES = [
   {
     id: "support",
     tag: "Local support",
     title: "Human support,\nlocal to Tanzania",
     description:
-      "Onboarding, training, and day-to-day assistance from a team that speaks your language — in English and Swahili.",
+      "Onboarding, training, and day-to-day assistance from a team that speaks your language - in English and Swahili.",
     points: [
       "English + Swahili support coverage",
       "Dedicated onboarding engineer",
@@ -24,7 +24,7 @@ const FEATURES = [
     tag: "Reliability",
     title: "Reliable delivery\nat scale",
     description:
-      "Direct carrier integrations with Vodacom, Airtel, and Tigo ensure your messages arrive — every time.",
+      "Direct carrier integrations with Vodacom, Airtel, and Tigo ensure your messages arrive - every time.",
     points: [
       "99.7% delivery rate",
       "Real-time delivery receipts",
@@ -63,7 +63,7 @@ const FEATURES = [
   },
 ] as const;
 
-/* ─── Decorative visuals (CSS-only, theme-aware) ─────────────── */
+/* --- Decorative visuals (CSS-only, theme-aware) --------------- */
 function SupportVisual() {
   return (
     <div className="relative flex h-full w-full items-center justify-center">
@@ -72,7 +72,7 @@ function SupportVisual() {
         {[
           { label: "Hello! Habari yako?", align: "left", delay: 0 },
           { label: "Nimefurahi kukusaidia.", align: "right", delay: 0.1 },
-          { label: "Message delivered ✓", align: "left", delay: 0.2 },
+          { label: "Message delivered OK", align: "left", delay: 0.2 },
         ].map((bubble) => (
           <motion.div
             key={bubble.label}
@@ -143,10 +143,10 @@ function DeliveryVisual() {
 
 function PricingVisual() {
   const tiers = [
-    { name: "Starter", price: "30", vol: "≤10K" },
-    { name: "Growth", price: "25", vol: "≤25K" },
-    { name: "Business", price: "23", vol: "≤50K" },
-    { name: "Pro", price: "20", vol: "≤100K" },
+    { name: "Starter", price: "30", vol: "<=10K" },
+    { name: "Growth", price: "25", vol: "<=25K" },
+    { name: "Business", price: "23", vol: "<=50K" },
+    { name: "Pro", price: "20", vol: "<=100K" },
   ];
   return (
     <div className="relative flex h-full w-full flex-col items-stretch justify-center gap-2 px-3 py-2">
@@ -222,7 +222,7 @@ const visuals: Record<string, React.FC> = {
   analytics: AnalyticsVisual,
 };
 
-/* ─── Card ───────────────────────────────────────────────────── */
+/* --- Card ----------------------------------------------------- */
 function FeatureCard({
   feature,
   index,
@@ -283,7 +283,7 @@ function FeatureCard({
   );
 }
 
-/* ─── Section ─────────────────────────────────────────────────── */
+/* --- Section --------------------------------------------------- */
 export default function ShowcaseSection() {
   return (
     <section id="showcase" className="relative scroll-mt-24 bg-background py-8 lg:scroll-mt-28 lg:py-12">
@@ -322,7 +322,7 @@ export default function ShowcaseSection() {
           </motion.p>
         </div>
 
-        {/* Bento grid — wide / narrow alternating pattern */}
+        {/* Bento grid - wide / narrow alternating pattern */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:gap-5">
           {/* Row 1 */}
           <div className="lg:col-span-7">
@@ -331,7 +331,7 @@ export default function ShowcaseSection() {
           <div className="lg:col-span-5">
             <FeatureCard feature={FEATURES[1]} index={1} />
           </div>
-          {/* Row 2 — reversed width */}
+          {/* Row 2 - reversed width */}
           <div className="lg:col-span-5">
             <FeatureCard feature={FEATURES[2]} index={2} />
           </div>

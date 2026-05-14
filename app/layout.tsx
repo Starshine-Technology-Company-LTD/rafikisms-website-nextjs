@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { landingContent } from '@/components/landing/content'
 import { ThemeProvider } from '@/components/theme-provider'
+import { fetchPublicBranding } from '@/lib/rafiki-public-api'
 
 const instrumentSans = Instrument_Sans({ 
   subsets: ["latin"],
@@ -22,13 +23,22 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains'
 });
 
-export const metadata: Metadata = {
-  title: landingContent.metadata.title,
-  description: landingContent.metadata.description,
-  icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: "/apple-icon.png",
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const branding = await fetchPublicBranding()
+  const fav = branding?.favicon_url?.trim()
+  return {
+    title: landingContent.metadata.title,
+    description: landingContent.metadata.description,
+    icons: fav
+      ? {
+          icon: [{ url: fav }],
+          apple: [{ url: fav }],
+        }
+      : {
+          icon: [{ url: '/rafiki-leter.svg', type: 'image/svg+xml' }],
+          apple: [{ url: '/rafiki-leter.svg', type: 'image/svg+xml' }],
+        },
+  }
 }
 
 export default function RootLayout({
@@ -40,7 +50,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <ThemeProvider>
-          {/* Page-wide blueprint grid — sits behind every route */}
+          {/* Page-wide blueprint grid - sits behind every route */}
           <div aria-hidden className="bg-grid-lines" />
           {children}
           <Analytics />

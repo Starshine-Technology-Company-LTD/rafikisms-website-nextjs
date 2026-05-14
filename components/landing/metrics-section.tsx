@@ -127,7 +127,7 @@ export function MetricsSection() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-            {/* Left — floating phone hero */}
+            {/* Left - floating phone hero */}
             <div className="lg:col-span-5 relative flex items-center justify-center min-h-[360px] lg:min-h-[460px]">
               {/* Soft teal radial glow */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -150,7 +150,7 @@ export function MetricsSection() {
               </div>
             </div>
 
-            {/* Right — 2x2 boxed metric tiles */}
+            {/* Right - 2x2 boxed metric tiles */}
             <div className="lg:col-span-7">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
                 {metrics.map((metric, index) => (
@@ -192,7 +192,7 @@ export function MetricsSection() {
 
       {process.env.NODE_ENV === "development" && (
         <div className="py-8 text-center text-sm text-neutral-400">
-          [Live metrics section — coming soon]
+          [Live metrics section - coming soon]
         </div>
       )}
     </section>

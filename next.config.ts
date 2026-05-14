@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const DEFAULT_LAN = "192.168.1.109";
 
-/** Next compares Origin **hostname** only — full URLs like http://host:3000 often fail matching. */
+/** Next compares Origin **hostname** only - full URLs like http://host:3000 often fail matching. */
 function normalizeAllowEntry(raw: string): string | null {
   const s = raw.trim();
   if (!s) return null;

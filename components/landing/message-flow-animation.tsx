@@ -9,7 +9,7 @@ export function MessageFlowAnimation() {
           className="absolute top-4 left-8 px-3 py-1.5 rounded-2xl rounded-bl-sm border border-foreground/15 bg-background/70 backdrop-blur-sm text-[10px] text-foreground/70 bubble-drift"
           style={{ animationDelay: "0.2s", animationDuration: "7s" }}
         >
-          Welcome 👋
+          Welcome
         </div>
         <div
           className="absolute bottom-6 right-4 px-3 py-1.5 rounded-2xl rounded-br-sm border border-brand/40 bg-brand-soft text-[10px] text-brand-deep bubble-drift"

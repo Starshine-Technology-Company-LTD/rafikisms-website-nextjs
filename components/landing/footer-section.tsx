@@ -2,14 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SignalWaveAnimation } from "./signal-wave-animation";
 import { landingContent } from "./content";
 
+const DEFAULT_LOGO = "/images/rafiki-logo.png";
+
 const footerLinks = landingContent.footer.links;
 const socialLinks = landingContent.footer.social;
 
-export function FooterSection() {
+export type FooterSectionProps = {
+  logoSrc?: string | null;
+};
+
+export function FooterSection({ logoSrc }: FooterSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const footerRef = useRef<HTMLElement>(null);
 
@@ -24,6 +31,9 @@ export function FooterSection() {
     if (footerRef.current) observer.observe(footerRef.current);
     return () => observer.disconnect();
   }, []);
+
+  const logo = logoSrc?.trim() || DEFAULT_LOGO;
+  const logoRemote = /^https?:\/\//i.test(logo);
 
   return (
     <footer ref={footerRef} className="relative border-t border-foreground/10">
@@ -42,19 +52,20 @@ export function FooterSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
-              <a 
-                href="#" 
-                className="inline-flex items-center mb-6 group focus-brand rounded-md" 
+              <Link
+                href="/"
+                className="inline-flex items-center mb-6 group focus-brand rounded-md"
                 aria-label={landingContent.brand.name}
               >
                 <Image
-                  src="/images/rafiki-logo.png"
+                  src={logo}
                   alt={landingContent.brand.name}
                   width={200}
                   height={200}
+                  unoptimized={logoRemote}
                   className="h-12 w-auto transition-all duration-300 group-hover:scale-[1.02] group-hover:brightness-110"
                 />
-              </a>
+              </Link>
 
               <p className="text-muted-foreground leading-relaxed mb-8 max-w-xs">
                 {landingContent.footer.description}

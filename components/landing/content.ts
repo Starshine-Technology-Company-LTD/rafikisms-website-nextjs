@@ -1,4 +1,4 @@
-/** Example curl for developers tab — built without nested quotes in a template literal (avoids parse/runtime issues). */
+/** Example curl for developers tab - built without nested quotes in a template literal (avoids parse/runtime issues). */
 const DEVELOPERS_SEND_CURL = [
   'curl -X POST "/v1/vendor/send-sms" \\',
   '  -H "X-API-Key: sk_vendor_xxx" \\',
@@ -60,7 +60,7 @@ export const landingContent = {
     title: "Three principles.",
     subtitle: "One reliable SMS platform.",
     description:
-      "Rafiki SMS is engineered around reliability, compliance, and scale — in that order. These principles guide every line of code and every operational decision.",
+      "Rafiki SMS is engineered around reliability, compliance, and scale - in that order. These principles guide every line of code and every operational decision.",
     pillars: [
       {
         number: "01",
@@ -78,7 +78,7 @@ export const landingContent = {
         number: "03",
         title: "Built for scale",
         description:
-          "Horizontally scaled queue workers, a durable message store, and observability built in from day one — so traffic spikes become a non-event.",
+          "Horizontally scaled queue workers, a durable message store, and observability built in from day one - so traffic spikes become a non-event.",
       },
     ],
     imageAlt: "Rafiki SMS chat delivery flow",
@@ -468,7 +468,7 @@ const data = await report.json();`,
     title: "Our brilliant",
     subtitle: "teammates.",
     description:
-      "The people behind Rafiki SMS — engineers, operators, and designers building a reliable messaging platform for East Africa and beyond.",
+      "The people behind Rafiki SMS - engineers, operators, and designers building a reliable messaging platform for East Africa and beyond.",
     members: [
       { name: "Team Member 1", role: "CEO & Founder", initials: "01" },
       { name: "Team Member 2", role: "Lead Developer", initials: "02" },
@@ -491,7 +491,7 @@ const data = await report.json();`,
         total: "04",
         title: "Human support, local to Tanzania",
         lead:
-          "Onboarding, training, and day-to-day assistance from a team that speaks your language — in English and Swahili.",
+          "Onboarding, training, and day-to-day assistance from a team that speaks your language - in English and Swahili.",
         bullets: [
           "English + Swahili support coverage",
           "Dedicated onboarding engineer",
@@ -525,9 +525,9 @@ const data = await report.json();`,
         lead:
           "Rafiki SMS is a secure, API-first SMS platform built for enterprises that cannot tolerate unreliable delivery. We route, queue and govern millions of SMS per month through a resilient SMPP backbone with vendor-level access control, sender ID compliance, and full audit trails.",
         bullets: [
-          "Built in-house at Starshine Technology — OTPs, alerts, campaigns for fintech, logistics, and public sector across Tanzania.",
+          "Built in-house at Starshine Technology - OTPs, alerts, campaigns for fintech, logistics, and public sector across Tanzania.",
           "Every message queued, tracked, and reconciled; every API key scoped; every sender ID governed.",
-          "1.2M+ SMS / month · 99.9% uptime target · 200+ vendor accounts · <4s avg queue time",
+          "1.2M+ SMS / month | 99.9% uptime target | 200+ vendor accounts | <4s avg queue time",
         ],
         theme: "light",
         visual: "about-rafiki",
@@ -549,7 +549,7 @@ const data = await report.json();`,
       },
     ],
   },
-  /** Vendor onboarding journey — synced with ui-website/process.md */
+  /** Vendor onboarding journey - synced with ui-website/process.md */
   process: {
     steps: [
       {
@@ -568,23 +568,23 @@ const data = await report.json();`,
         id: "sender-access",
         title: "Sender ID, account & access",
         description:
-          "Vendor user must be in good standing: active, email verified (and any internal “approved” steps your ops use). Sender IDs are registered in your system, tied to the right gateway, marked active, and assigned to that vendor—the API rejects source_address values that are not on the vendor’s approved list. If you use sender name / registration flows with the operator (e.g. Beam/Rafiki processes), complete those before treating the ID as production-ready.",
+          "Vendor user must be in good standing: active, email verified (and any internal 'approved' steps your ops use). Sender IDs are registered in your system, tied to the right gateway, marked active, and assigned to that vendor; the API rejects source_address values that are not on the vendor's approved list. If you use sender name / registration flows with the operator (e.g. Beam/Rafiki processes), complete those before treating the ID as production-ready.",
         illustrationLabel: "Prototype / readiness checklist",
         points: [
           "Sender ID list: name, gateway, active, assignment to the vendor.",
           "Default sender for the vendor when source_address is omitted (if you rely on that).",
-          "Admin/vendor UI paths for requests and status (pending → progress → done), aligned with how you operate today.",
+          "Admin/vendor UI paths for requests and status (pending -> progress -> done), aligned with how you operate today.",
         ],
       },
       {
         id: "integration",
         title: "Integration, keys & hardening",
         description:
-          "Platform: Laravel has RAFIKI_SMS_* (or a Sending Server row), SMS_DEFAULT_PROVIDER=rafiki (or equivalent), timeouts/retries, and optional DLR callback URL if you use Rafiki callbacks. Vendor integration: create a vendor API key (plain text shown once), store it in the vendor’s secret manager, and call POST /v1/vendor/send-sms with X-API-Key, JSON body phone, message, optional source_address. Add automated tests (single + bulk), idempotency or retry policy on the client if needed, and logging/monitoring for INVALID_SENDER_ID, INSUFFICIENT_CREDITS, and upstream failures.",
+          "Platform: Laravel has RAFIKI_SMS_* (or a Sending Server row), SMS_DEFAULT_PROVIDER=rafiki (or equivalent), timeouts/retries, and optional DLR callback URL if you use Rafiki callbacks. Vendor integration: create a vendor API key (plain text shown once), store it in the vendor's secret manager, and call POST /v1/vendor/send-sms with X-API-Key, JSON body phone, message, optional source_address. Add automated tests (single + bulk), idempotency or retry policy on the client if needed, and logging/monitoring for INVALID_SENDER_ID, INSUFFICIENT_CREDITS, and upstream failures.",
         illustrationLabel: "Implementation board",
         points: [
           "API contract documented (errors, codes, max message length).",
-          "Staged rollout: dev/stage base URL → production; smoke tests with real MSISDNs where allowed.",
+          "Staged rollout: dev/stage base URL -> production; smoke tests with real MSISDNs where allowed.",
           "Observability: delivery reports page/job pipeline, alerts on error spikes.",
         ],
       },
@@ -592,7 +592,7 @@ const data = await report.json();`,
         id: "credits-launch",
         title: "Credits, launch & support",
         description:
-          "SMS credits must cover traffic; sends fail fast with INSUFFICIENT_CREDITS when balance is too low. Go-live: runbook (who rotates API keys, how to revoke keys), rollback (disable key or deactivate vendor), and support playbooks for “message not received” (operator, DLR, malformed MSISDN). Post-launch: regular review of credits, DLR/vendor webhooks, sender ID changes, and gateway incidents.",
+          "SMS credits must cover traffic; sends fail fast with INSUFFICIENT_CREDITS when balance is too low. Go-live: runbook (who rotates API keys, how to revoke keys), rollback (disable key or deactivate vendor), and support playbooks for 'message not received' (operator, DLR, malformed MSISDN). Post-launch: regular review of credits, DLR/vendor webhooks, sender ID changes, and gateway incidents.",
         illustrationLabel: "Launch snapshot",
         points: [
           "Launch checklist: credits, sender IDs, API key in prod, base URL, DLR/webhooks.",
@@ -627,15 +627,15 @@ const data = await report.json();`,
       },
       {
         q: "How is the platform architected for scale and reliability?",
-        a: "Traffic enters through authenticated APIs and validation layers, persists to durable storage before dispatch, then flows through prioritized asynchronous workers and carrier-facing SMPP paths. Supporting services handle delivery reports (DLRs), retries, and webhook callbacks — so bursts are absorbed without sacrificing traceability.",
+        a: "Traffic enters through authenticated APIs and validation layers, persists to durable storage before dispatch, then flows through prioritized asynchronous workers and carrier-facing SMPP paths. Supporting services handle delivery reports (DLRs), retries, and webhook callbacks - so bursts are absorbed without sacrificing traceability.",
       },
       {
         q: "Are messages and delivery statuses guaranteed under load?",
-        a: "We design for at-least-once processing end-to-end: accepts are recorded, outbound work is queued for resilient workers, and downstream systems receive status updates through DLR ingestion and HTTPS callbacks — with bounded retries instead of silent drops when carriers or endpoints hiccup.",
+        a: "We design for at-least-once processing end-to-end: accepts are recorded, outbound work is queued for resilient workers, and downstream systems receive status updates through DLR ingestion and HTTPS callbacks - with bounded retries instead of silent drops when carriers or endpoints hiccup.",
       },
       {
         q: "Can we integrate status updates into our own systems?",
-        a: "Yes. Beyond the dashboard and APIs, you can consume delivery lifecycle events via webhooks and structured logs — ideal for reconciling CRM records, billing, or support workflows without polling carrier consoles.",
+        a: "Yes. Beyond the dashboard and APIs, you can consume delivery lifecycle events via webhooks and structured logs - ideal for reconciling CRM records, billing, or support workflows without polling carrier consoles.",
       },
       {
         q: "Which payment methods do you support?",
@@ -654,7 +654,7 @@ const data = await report.json();`,
         icon: "phone",
         label: "Call us",
         value: "+255 762 000 000",
-        hint: "Mon – Fri, 08:00 – 18:00 EAT",
+        hint: "Mon - Fri, 08:00 - 18:00 EAT",
       },
       {
         icon: "mail",
@@ -676,7 +676,7 @@ const data = await report.json();`,
       phoneLabel: "Phone (optional)",
       messageLabel: "How can we help?",
       submitLabel: "Send message",
-      successTitle: "Thanks — we got it.",
+      successTitle: "Thanks - we got it.",
       successBody: "A member of our team will reply within 24 hours.",
     },
   },

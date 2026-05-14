@@ -53,7 +53,7 @@ export function SecuritySection() {
               {landingContent.security.description}
             </p>
 
-            {/* Certifications / trust tags — brand teal (not default border) */}
+            {/* Certifications / trust tags - brand teal (not default border) */}
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
               {certifications.map((cert, index) => (
                 <span

@@ -17,7 +17,7 @@ export type TryConsoleProps = {
   defaultBody?: string;
 };
 
-/** Opens a right drawer — wire your vendor endpoint when backend URL is configured */
+/** Opens a right drawer - wire your vendor endpoint when backend URL is configured */
 export function TryConsole({ defaultBody }: TryConsoleProps) {
   const [body, setBody] = useState(
     defaultBody ??
@@ -28,7 +28,7 @@ export function TryConsole({ defaultBody }: TryConsoleProps) {
 
   const send = () => {
     setResponse(
-      "// Demo mode — set NEXT_PUBLIC_VENDOR_API_URL and call from your backend.\n" +
+      "// Demo mode - set NEXT_PUBLIC_VENDOR_API_URL and call from your backend.\n" +
         JSON.stringify({ ok: false, demo: true }, null, 2)
     );
   };

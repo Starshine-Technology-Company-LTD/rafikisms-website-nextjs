@@ -48,7 +48,7 @@
   --brand-foreground: #ffffff;
   --brand-soft: rgba(20, 184, 166, 0.12);
 
-  /* Spec aliases — map “signal” tokens to Rafiki brand (theme-aware) */
+  /* Spec aliases - map "signal" tokens to Rafiki brand (theme-aware) */
   --signal: var(--brand-primary);
   --signal-dim: var(--brand-primary-dk);
   --signal-bg: var(--brand-soft);
@@ -56,7 +56,7 @@
   --signal-subtle: rgba(10, 175, 160, 0.12);
   --bg-overlay: rgba(250, 250, 247, 0.92);
 
-  /* Docs / API reference — code & panels (avoid hardcoded hex in components) */
+  /* Docs / API reference - code & panels (avoid hardcoded hex in components) */
   --docs-code-bg: oklch(0.965 0.006 90);
   --docs-code-fg: oklch(0.32 0.03 60);
   --docs-code-muted: oklch(0.48 0.02 60);
@@ -175,7 +175,7 @@
 }
 
 @layer utilities {
-  /* Hero globe rotating ring — follows `.dark` on <html> (no JS theme read) */
+  /* Hero globe rotating ring - follows `.dark` on <html> (no JS theme read) */
   .rafiki-globe-ring {
     border-color: rgba(10, 175, 160, 0.22);
     box-shadow: 0 0 32px rgba(10, 175, 160, 0.22);
@@ -324,7 +324,7 @@
     background-size: 100% 100%, 8px 8px;
   }
 
-  /* Rafiki SMS brand gradient — matches pricing CTA in web/src/features/landing */
+  /* Rafiki SMS brand gradient - matches pricing CTA in web/src/features/landing */
   .bg-brand-gradient {
     background-image: linear-gradient(to right, var(--brand), var(--brand-strong));
   }
@@ -454,7 +454,7 @@
   /* Team member unique per-index hover effects                         */
   /* ------------------------------------------------------------------ */
 
-  /* 1 — Tilt 3D */
+  /* 1 - Tilt 3D */
   .team-fx-tilt { perspective: 800px; }
   .team-fx-tilt > .team-portrait {
     transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -464,7 +464,7 @@
     transform: rotateX(6deg) rotateY(-6deg) scale(1.02);
   }
 
-  /* 2 — Shine sweep */
+  /* 2 - Shine sweep */
   .team-fx-shine > .team-portrait { position: relative; overflow: hidden; }
   .team-fx-shine > .team-portrait::after {
     content: "";
@@ -476,14 +476,14 @@
   }
   .team-fx-shine:hover > .team-portrait::after { transform: translateX(120%) skewX(-20deg); }
 
-  /* 3 — Teal wash */
+  /* 3 - Teal wash */
   .team-fx-wash > .team-portrait {
     transition: background-color 0.5s ease;
   }
   .team-fx-wash:hover > .team-portrait { background-color: var(--brand-soft) !important; }
   .team-fx-wash:hover .team-initials { color: var(--brand-strong) !important; }
 
-  /* 4 — Rise and lift */
+  /* 4 - Rise and lift */
   .team-fx-lift {
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
   }
@@ -493,14 +493,14 @@
     z-index: 2;
   }
 
-  /* 5 — Corner-tick expand */
+  /* 5 - Corner-tick expand */
   .team-fx-corners .corner-tick {
     transition: width 0.45s ease, height 0.45s ease;
   }
   .team-fx-corners:hover .corner-tick.h { width: 40% !important; }
   .team-fx-corners:hover .corner-tick.v { height: 40% !important; }
 
-  /* 6 — Scanline sweep */
+  /* 6 - Scanline sweep */
   .team-fx-scan > .team-portrait::before {
     content: "";
     position: absolute; left: 0; right: 0; top: -20%; height: 20%;
@@ -511,7 +511,7 @@
   .team-fx-scan > .team-portrait { position: relative; overflow: hidden; }
   .team-fx-scan:hover > .team-portrait::before { transform: translateY(600%); }
 
-  /* 7 — Glitch shift */
+  /* 7 - Glitch shift */
   @keyframes glitchShift {
     0%   { transform: translate(0, 0); }
     20%  { transform: translate(-1.5px, 1px); }
@@ -525,7 +525,7 @@
     text-shadow: 2px 0 0 rgba(13,148,136,0.55), -2px 0 0 rgba(239,68,68,0.35);
   }
 
-  /* 8 — Scale zoom + letter-spacing bloom */
+  /* 8 - Scale zoom + letter-spacing bloom */
   .team-fx-zoom .team-initials {
     transition: transform 0.5s ease, letter-spacing 0.5s ease, color 0.5s ease;
   }
@@ -724,7 +724,7 @@
   }
 }
 
-/* ─── Page-wide blueprint grid + soft noise overlay ─────────── */
+/* --- Page-wide blueprint grid + soft noise overlay ----------- */
 /* Sits behind all content (z-index 0 on body::before, content stays on z-index 1+).
    Uses brand-foreground tokens so it adapts to light/dark themes. */
 .bg-grid-lines {
@@ -748,7 +748,7 @@
     linear-gradient(to bottom, color-mix(in oklch, var(--foreground) 7%, transparent) 1px, transparent 1px);
 }
 
-/* Subtle noise — pre-existing class referenced by app/page.tsx */
+/* Subtle noise - pre-existing class referenced by app/page.tsx */
 .noise-overlay {
   position: relative;
 }

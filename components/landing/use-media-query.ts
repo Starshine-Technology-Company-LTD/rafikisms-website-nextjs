@@ -34,8 +34,8 @@ export function useIsTablet(): boolean {
 
 /**
  * When true, render showcase as a vertical card list (no sticky scrub).
- * Uses max-width 767px (below Tailwind `md`) — not the global 1024px tablet query —
- * so inset IDE / Cursor preview panes (often ≤1024px wide) still get the scroll-driven
+ * Uses max-width 767px (below Tailwind `md`) - not the global 1024px tablet query  - 
+ * so inset IDE / Cursor preview panes (often <=1024px wide) still get the scroll-driven
  * deck; only phones/small viewports stack.
  */
 export function useShowcaseStackedList(): boolean {

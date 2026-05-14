@@ -32,7 +32,12 @@ const METRICS: MetricItem[] = [
   },
 ];
 
-export default function HeroSection() {
+type HeroSectionProps = {
+  /** Vendor SPA registration (falls back to /register when omitted). */
+  vendorRegisterUrl?: string;
+};
+
+export default function HeroSection({ vendorRegisterUrl }: HeroSectionProps) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
   const isMobile = useIsMobile();
@@ -111,7 +116,7 @@ export default function HeroSection() {
                 className="flex flex-wrap gap-3"
               >
                 <a
-                  href="/register"
+                  href={vendorRegisterUrl ?? "/register"}
                   className="
                     inline-flex items-center gap-2 rounded-full bg-[var(--brand-primary)] px-6 py-3
                     font-medium text-white shadow-lg shadow-[rgba(10,175,160,0.22)] transition-all duration-200
@@ -119,7 +124,7 @@ export default function HeroSection() {
                   "
                 >
                   {hero.primaryCta}
-                  <span aria-hidden>→</span>
+                  <span aria-hidden>{"->"}</span>
                 </a>
                 <a
                   href="#developers"

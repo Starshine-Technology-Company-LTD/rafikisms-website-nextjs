@@ -2,9 +2,22 @@
 
 import { useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { landingContent } from "./content";
+import type { TeamMemberView } from "@/lib/rafiki-public-api";
 
-const team = landingContent.team;
+const teamStatic = landingContent.team;
+
+function normalizeMembers(fromApi?: TeamMemberView[] | null): TeamMemberView[] {
+  if (fromApi && fromApi.length > 0) return fromApi;
+  return teamStatic.members.map((m, idx) => ({
+    id: idx,
+    name: m.name,
+    role: m.role,
+    initials: m.initials,
+    imageUrl: null,
+  }));
+}
 
 const teamFx = [
   "team-fx-tilt",
@@ -17,6 +30,8 @@ const teamFx = [
   "team-fx-zoom",
 ] as const;
 
+type TileMember = TeamMemberView;
+
 function TeamTile({
   member,
   idx,
@@ -24,7 +39,7 @@ function TeamTile({
   fillHeight = false,
   suppressEntrance = false,
 }: {
-  member: (typeof team.members)[number];
+  member: TileMember;
   idx: number;
   isVisible: boolean;
   fillHeight?: boolean;
@@ -32,6 +47,7 @@ function TeamTile({
 }) {
   const fx = teamFx[idx % teamFx.length];
   const entranceOn = suppressEntrance || isVisible;
+  const remoteImg = member.imageUrl ? /^https?:\/\//i.test(member.imageUrl) : false;
   return (
     <div
       className={`group relative bg-background p-5 lg:p-6 cursor-pointer ${fx} ${
@@ -47,11 +63,22 @@ function TeamTile({
           fillHeight ? "flex-1 min-h-0" : "aspect-[17/25]"
         }`}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="team-initials font-display text-5xl lg:text-6xl text-foreground/25 transition-colors duration-500">
-            {member.initials}
-          </span>
-        </div>
+        {member.imageUrl ? (
+          <Image
+            src={member.imageUrl}
+            alt={member.name}
+            fill
+            sizes="(max-width: 768px) 50vw, 280px"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            unoptimized={remoteImg}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="team-initials font-display text-5xl lg:text-6xl text-foreground/25 transition-colors duration-500">
+              {member.initials}
+            </span>
+          </div>
+        )}
 
         {/* Corner ticks */}
         <span className="corner-tick h absolute top-2 left-2 w-3 h-px bg-foreground/30" />
@@ -105,12 +132,18 @@ function TeamTile({
   );
 }
 
-export function TeamSection() {
+export type TeamSectionProps = {
+  members?: TeamMemberView[] | null;
+};
+
+export function TeamSection({ members: membersProp }: TeamSectionProps) {
+  const members = normalizeMembers(membersProp ?? undefined);
+
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const deckRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const deckMinHeightVh = team.members.length * 8 + 16;
+  const deckMinHeightVh = members.length * 8 + 16;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -138,15 +171,15 @@ export function TeamSection() {
           }`}
         >
           <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-5">
-            {team.eyebrow}
+            {teamStatic.eyebrow}
           </span>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground mb-4">
-            {team.title}
+            {teamStatic.title}
             <br />
-            <span className="text-stroke">{team.subtitle}</span>
+            <span className="text-stroke">{teamStatic.subtitle}</span>
           </h2>
           <p className="text-base lg:text-lg text-muted-foreground max-w-xl">
-            {team.description}
+            {teamStatic.description}
           </p>
         </div>
 
@@ -154,9 +187,9 @@ export function TeamSection() {
         <div className="relative max-w-2xl mx-auto border border-foreground/10 rounded-3xl bg-background/40 backdrop-blur-sm p-3 sm:p-4 lg:p-5 overflow-visible">
           {prefersReducedMotion ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {team.members.map((member, idx) => (
+              {members.map((member, idx) => (
                 <TeamTile
-                  key={member.name}
+                  key={member.id}
                   member={member}
                   idx={idx}
                   isVisible={isVisible}
@@ -170,9 +203,9 @@ export function TeamSection() {
               className="relative mx-auto max-w-xl sm:max-w-2xl"
               style={{ minHeight: `${deckMinHeightVh}vh` }}
             >
-              {team.members.map((member, idx) => (
+              {members.map((member, idx) => (
                 <div
-                  key={member.name}
+                  key={member.id}
                   className="sticky mb-[min(10vh,5.5rem)] last:mb-0"
                   style={{
                     top: `clamp(4.5rem, ${4.75 + idx * 0.75}rem, 9.5rem)`,

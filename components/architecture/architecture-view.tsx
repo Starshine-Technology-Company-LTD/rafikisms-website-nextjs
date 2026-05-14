@@ -16,33 +16,33 @@ const STACK = [
     tag: "backend",
   },
   {
-    mono: "⚡",
+    mono: "*",
     title: "Kafka",
     subtitle: "Distributed event streaming for parallel SMS dispatch and ordered retries.",
     tag: "messaging",
   },
   {
-    mono: "▲",
+    mono: "^",
     title: "Next.js",
     subtitle: "Marketing & dashboards with SSR where it matters; edge-ready assets.",
     tag: "frontend",
   },
   {
-    mono: "⚙",
+    mono: "#",
     title: "Laravel",
-    subtitle: "Admin, billing, vendor lifecycle — operational surfaces your team uses daily.",
+    subtitle: "Admin, billing, vendor lifecycle - operational surfaces your team uses daily.",
     tag: "platform",
   },
   {
-    mono: "∥",
+    mono: "||",
     title: "Parallel pools",
     subtitle: "Concurrent SMPP sessions with multiplexed gateways and health-aware routing.",
     tag: "infra",
   },
   {
-    mono: "⬡",
+    mono: "#",
     title: "React",
-    subtitle: "Interactive dashboards — delivery timelines, queues, and operational drill-downs.",
+    subtitle: "Interactive dashboards - delivery timelines, queues, and operational drill-downs.",
     tag: "ui",
   },
 ];
@@ -90,7 +90,7 @@ export function ArchitectureView() {
             className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
           >
             Every component chosen for throughput, fault tolerance, and East African network
-            conditions — without sacrificing observability or auditability.
+            conditions - without sacrificing observability or auditability.
           </motion.p>
           <motion.div
             variants={staggerItem}
@@ -100,7 +100,7 @@ export function ArchitectureView() {
               href="/#contact"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-primary)] px-7 py-3 font-medium text-white shadow-lg shadow-[var(--brand-primary)]/25 transition hover:bg-[var(--brand-primary-dk)]"
             >
-              View live status ↗
+              View live status (external)
             </Link>
             <Link
               href="/docs"
@@ -130,7 +130,7 @@ export function ArchitectureView() {
             Request lifecycle
           </h2>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            A simplified happy path — each hop is monitored, metered, and logged.
+            A simplified happy path - each hop is monitored, metered, and logged.
           </p>
           <div className="mt-10">
             <LifecycleFlow />
@@ -156,7 +156,7 @@ export function ArchitectureView() {
             Operational posture
           </h2>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            Targets and commitments — your integration SLAs depend on disciplined operations.
+            Targets and commitments - your integration SLAs depend on disciplined operations.
           </p>
           <div className="mt-10">
             <ArchitectureStatsStrip />

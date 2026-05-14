@@ -10,6 +10,10 @@ services:
       - "${PORT:-40401}:3000"
     environment:
       - NODE_ENV=production
+      - NEXT_PUBLIC_APP_URL=https://rafikisms.com
+      - NEXT_PUBLIC_VENDOR_SIGNIN_URL=https://vendor.rafikisms.com/auth/login
+      - NEXT_PUBLIC_VENDOR_REGISTER_URL=https://vendor.rafikisms.com/auth/register
+      - NEXT_PUBLIC_API_URL=https://api.rafikisms.com
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]

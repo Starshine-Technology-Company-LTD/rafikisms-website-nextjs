@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 const STEPS = [
   { id: "client", label: "Client", sub: "REST", width: 72 },
-  { id: "gateway", label: "Gateway", sub: "auth · rate", width: 92 },
+  { id: "gateway", label: "Gateway", sub: "auth | rate", width: 92 },
   { id: "queue", label: "Queue", sub: "sms.send", width: 88 },
   { id: "pool", label: "SMPP pool", sub: "parallel", width: 92 },
-  { id: "net", label: "Networks", sub: "TZ · KE · UG", width: 96 },
+  { id: "net", label: "Networks", sub: "TZ | KE | UG", width: 96 },
 ];
 
 export function LifecycleFlow() {

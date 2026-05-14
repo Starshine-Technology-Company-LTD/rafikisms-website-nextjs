@@ -11,7 +11,7 @@ export type MobileNavSection = {
   links: { label: string; href: string }[];
 };
 
-/** Sectioned slide-down panel — styled with Rafiki `--brand-primary` tokens */
+/** Sectioned slide-down panel - styled with Rafiki `--brand-primary` tokens */
 export const MOBILE_NAV_SECTIONS: MobileNavSection[] = [
   {
     label: "PRODUCT",
@@ -49,9 +49,16 @@ function isHrefActive(pathname: string, href: string): boolean {
 type MobileNavProps = {
   open: boolean;
   onClose: () => void;
+  vendorSignInUrl: string;
+  vendorRegisterUrl: string;
 };
 
-export function MobileNav({ open, onClose }: MobileNavProps) {
+export function MobileNav({
+  open,
+  onClose,
+  vendorSignInUrl,
+  vendorRegisterUrl,
+}: MobileNavProps) {
   const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -123,7 +130,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                             }`}
                           >
                             <span className="mr-2 text-muted-foreground">
-                              {active ? "●" : "▸"}
+                              {active ? "*" : ">"}
                             </span>
                             {link.label}
                           </Link>
@@ -134,14 +141,21 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                 </div>
               ))}
 
-              <div className="mt-4 border-t border-border/60 pt-4">
-                <Link
-                  href="/#contact"
+              <div className="mt-4 border-t border-border/60 pt-4 flex flex-col gap-2">
+                <a
+                  href={vendorSignInUrl}
+                  onClick={onClose}
+                  className="flex h-11 w-full items-center justify-center rounded-full border border-border/80 text-sm font-medium text-foreground/90 transition hover:bg-muted/50"
+                >
+                  Vendor sign in
+                </a>
+                <a
+                  href={vendorRegisterUrl}
                   onClick={onClose}
                   className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--brand-primary)] font-medium text-white shadow-md shadow-[var(--brand-primary)]/25 transition hover:bg-[var(--brand-primary-dk)]"
                 >
-                  Start sending →
-                </Link>
+                  {"Start sending ->"}
+                </a>
               </div>
             </div>
           </motion.div>
@@ -151,7 +165,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
   );
 }
 
-/** Compact toggle icon — pairs with MobileNav panel */
+/** Compact toggle icon - pairs with MobileNav panel */
 export function HamburgerIcon({ open }: { open: boolean }) {
   return (
     <span className="relative flex h-9 w-9 items-center justify-center" aria-hidden>

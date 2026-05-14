@@ -9,7 +9,7 @@ type SparklesBackgroundProps = {
   reducedMotion?: boolean;
 };
 
-/** Theme via `dark:` layers so SSR matches `.dark` on `<html>` — no `useTheme` flash. */
+/** Theme via `dark:` layers so SSR matches `.dark` on `<html>` - no `useTheme` flash. */
 export function SparklesBackground({
   className,
   densityOverride,

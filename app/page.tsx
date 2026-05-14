@@ -16,12 +16,23 @@ import { FaqSection } from "@/components/landing/faq-section";
 import { ContactSection } from "@/components/landing/contact-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
+import { fetchLandingPublicData } from "@/lib/rafiki-public-api";
+import { getVendorRegisterUrl, getVendorSignInUrl } from "@/lib/vendor-url";
 
-export default function Home() {
+export default async function Home() {
+  const { branding, team, pricings } = await fetchLandingPublicData();
+  const vendorSignInUrl = getVendorSignInUrl();
+  const vendorRegisterUrl = getVendorRegisterUrl();
+  const logoSrc = branding?.logo_url?.trim() || null;
+
   return (
     <main className="relative min-h-screen overflow-x-clip noise-overlay">
-      <Navigation />
-      <HeroSection />
+      <Navigation
+        logoSrc={logoSrc}
+        vendorSignInUrl={vendorSignInUrl}
+        vendorRegisterUrl={vendorRegisterUrl}
+      />
+      <HeroSection vendorRegisterUrl={vendorRegisterUrl} />
       <FeaturesSection />
       <ShowcaseSection />
       <ApproachSection />
@@ -32,12 +43,18 @@ export default function Home() {
       <SecuritySection />
       <DevelopersSection />
       <TestimonialsSection />
-      <PricingSection />
-      <TeamSection />
+      <PricingSection
+        tiers={pricings ?? undefined}
+        vendorRegisterUrl={vendorRegisterUrl}
+      />
+      <TeamSection members={team ?? undefined} />
       <FaqSection />
       <ContactSection />
-      <CtaSection />
-      <FooterSection />
+      <CtaSection
+        vendorSignInUrl={vendorSignInUrl}
+        vendorRegisterUrl={vendorRegisterUrl}
+      />
+      <FooterSection logoSrc={logoSrc} />
     </main>
   );
 }

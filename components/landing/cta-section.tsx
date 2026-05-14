@@ -5,8 +5,19 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { MessageFlowAnimation } from "./message-flow-animation";
 import { landingContent } from "./content";
+import { getVendorRegisterUrl, getVendorSignInUrl } from "@/lib/vendor-url";
 
-export function CtaSection() {
+export type CtaSectionProps = {
+  vendorSignInUrl?: string;
+  vendorRegisterUrl?: string;
+};
+
+export function CtaSection({
+  vendorSignInUrl: signInProp,
+  vendorRegisterUrl: registerProp,
+}: CtaSectionProps) {
+  const vendorSignInUrl = signInProp ?? getVendorSignInUrl();
+  const vendorRegisterUrl = registerProp ?? getVendorRegisterUrl();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -71,16 +82,20 @@ export function CtaSection() {
                     size="lg"
                     variant="ghost"
                     className="btn-brand px-7 h-12 text-sm rounded-full group/btn hover-glow focus-brand"
+                    asChild
                   >
-                    Create an account
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                    <a href={vendorRegisterUrl}>
+                      Create an account
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                    </a>
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
                     className="h-12 px-7 text-sm rounded-full border-border bg-transparent text-foreground hover:bg-muted hover:border-foreground/20 focus-brand transition-all duration-300"
+                    asChild
                   >
-                    Sign in
+                    <a href={vendorSignInUrl}>Sign in</a>
                   </Button>
                 </div>
 

@@ -3,17 +3,32 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { landingContent } from "./content";
+import type { PricingTierView } from "@/lib/rafiki-public-api";
+import { getVendorRegisterUrl } from "@/lib/vendor-url";
 
-const pricing = landingContent.pricing;
+const pricingStatic = landingContent.pricing;
 
 function formatVolume(min: number, max: number | null) {
   if (max === null) {
     return `${min.toLocaleString()}+`;
   }
-  return `${min.toLocaleString()} – ${max.toLocaleString()}`;
+  return `${min.toLocaleString()} - ${max.toLocaleString()}`;
 }
 
-export function PricingSection() {
+export type PricingSectionProps = {
+  tiers?: PricingTierView[] | null;
+  vendorRegisterUrl?: string;
+};
+
+export function PricingSection({
+  tiers: tiersProp,
+  vendorRegisterUrl: registerProp,
+}: PricingSectionProps) {
+  const vendorRegisterUrl = registerProp ?? getVendorRegisterUrl();
+  const tiers: PricingTierView[] =
+    tiersProp && tiersProp.length > 0
+      ? tiersProp
+      : (pricingStatic.tiers as unknown as PricingTierView[]);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -44,24 +59,24 @@ export function PricingSection() {
         >
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground uppercase tracking-widest mb-5">
             <span className="w-8 h-px bg-foreground/30" />
-            {pricing.eyebrow}
+            {pricingStatic.eyebrow}
           </span>
           <h2 className="font-display text-4xl lg:text-5xl tracking-tight text-foreground leading-[1.05] mb-5">
-            {pricing.title}
+            {pricingStatic.title}
             <br />
-            <span className="text-brand">{pricing.subtitle}</span>
+            <span className="text-brand">{pricingStatic.subtitle}</span>
           </h2>
           <p className="text-base lg:text-lg text-muted-foreground max-w-xl">
-            {pricing.description}
+            {pricingStatic.description}
           </p>
         </div>
 
-        {/* Tiers grid — 4x2, staggered reveal, boxed rail */}
+        {/* Tiers grid - 4x2, staggered reveal, boxed rail */}
         <div className="relative max-w-7xl mx-auto border border-foreground/10 rounded-3xl overflow-hidden bg-background/40 backdrop-blur-sm">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-foreground/10">
-          {pricing.tiers.map((tier, idx) => (
+          {tiers.map((tier, idx) => (
             <div
-              key={tier.name}
+              key={`${tier.name}-${idx}`}
               className={`group relative bg-background p-5 lg:p-6 flex flex-col transition-all duration-500 ease-out hover:bg-brand-soft/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand/5 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               } ${tier.popular ? "ring-2 ring-brand ring-inset ring-pulse" : ""}`}
@@ -72,7 +87,7 @@ export function PricingSection() {
             >
               {tier.popular && (
                 <span className="absolute -top-px right-4 inline-flex items-center gap-1.5 px-2 py-0.5 bg-brand-gradient text-brand-foreground text-[10px] font-mono uppercase tracking-widest">
-                  {pricing.bestValueLabel}
+                  {pricingStatic.bestValueLabel}
                   <svg
                     width="14"
                     height="8"
@@ -105,7 +120,7 @@ export function PricingSection() {
                   {String(idx + 1).padStart(2, "0")}
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  {formatVolume(tier.minVolume, tier.maxVolume)} {pricing.volumeUnit}
+                  {formatVolume(tier.minVolume, tier.maxVolume)} {pricingStatic.volumeUnit}
                 </span>
               </div>
 
@@ -117,10 +132,10 @@ export function PricingSection() {
               {/* Row 3: price */}
               <div className="flex items-baseline gap-1.5 mb-4">
                 <span className="font-display text-3xl lg:text-4xl text-brand leading-none transition-transform duration-500 ease-out origin-left group-hover:scale-105">
-                  {tier.pricePerSms}
+                  {tier.pricePerSms.toLocaleString()}
                 </span>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-                  {pricing.unitLabel}
+                  {pricingStatic.unitLabel}
                 </span>
                 <svg
                   width="14"
@@ -168,14 +183,14 @@ export function PricingSection() {
 
               {/* Row 6: minimal CTA link */}
               <a
-                href="#"
+                href={vendorRegisterUrl}
                 className={`inline-flex items-center gap-1.5 text-xs font-medium transition-colors ${
                   tier.popular
                     ? "text-brand hover:text-brand-deep"
                     : "text-foreground hover:text-brand"
                 }`}
               >
-                {pricing.ctaLabel}
+                {pricingStatic.ctaLabel}
                 <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </a>
             </div>
@@ -185,7 +200,7 @@ export function PricingSection() {
 
         {/* Bottom note */}
         <p className="mt-10 text-center text-xs lg:text-sm text-muted-foreground max-w-2xl mx-auto">
-          {pricing.bottomNote}
+          {pricingStatic.bottomNote}
         </p>
       </div>
     </section>

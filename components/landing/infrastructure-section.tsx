@@ -54,7 +54,7 @@ export function InfrastructureSection() {
               {landingContent.infrastructure.description}
             </p>
 
-            {/* Stats — stack on mobile, row from sm up */}
+            {/* Stats - stack on mobile, row from sm up */}
             <ul className="flex flex-col gap-3 sm:grid sm:grid-cols-3 sm:gap-4">
               {landingContent.infrastructure.stats.map((stat) => (
                 <li key={stat.label}>

@@ -125,7 +125,7 @@ export function SmsChatAnimation() {
               <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />
             </span>
             <span className="font-medium">SMS delivered</span>
-            <span className="opacity-60">+255 •• 342</span>
+            <span className="opacity-60">+255 xx 342</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -173,7 +173,7 @@ export function SmsChatAnimation() {
                     transition={{ duration: 0.25 }}
                     className="text-[10px] text-brand"
                   >
-                    {typing ? "typing…" : "online"}
+                    {typing ? "typing..." : "online"}
                   </motion.div>
                 </AnimatePresence>
               </div>

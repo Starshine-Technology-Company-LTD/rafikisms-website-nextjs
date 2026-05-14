@@ -17,7 +17,7 @@ const STATS: {
     prefix: "<",
     suffix: "ms",
     label: "API response",
-    detail: "target · regional edge",
+    detail: "target | regional edge",
   },
   {
     value: "",
@@ -27,9 +27,9 @@ const STATS: {
     detail: "operations practice",
   },
   {
-    value: "∞",
+    value: "inf",
     label: "horizontal scale",
-    detail: "workers · partitions",
+    detail: "workers | partitions",
   },
   {
     value: "3+",
