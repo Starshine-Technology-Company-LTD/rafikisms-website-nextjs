@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"enterprise SaaS dark landing page\" --domain landing)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"nextjs tailwind dark enterprise\" --stack nextjs)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)"
+    ]
+  }
+}
