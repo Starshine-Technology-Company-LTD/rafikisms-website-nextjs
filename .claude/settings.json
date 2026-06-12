@@ -3,7 +3,13 @@
     "allow": [
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"enterprise SaaS dark landing page\" --domain landing)",
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"nextjs tailwind dark enterprise\" --stack nextjs)",
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm install *)",
+      "WebFetch(domain:21st.dev)",
+      "Read(//Users/apple/.claude/**)",
+      "Bash(curl -s \"https://21st.dev/\")",
+      "Bash(python3 -c \"import sys; content = sys.stdin.read\\(\\); import re; links = re.findall\\(r'href=\\\\\"\\([^\\\\\"]+\\)\\\\\"', content\\); [print\\(l\\) for l in links[:50]]\")",
+      "WebFetch(domain:www.npmjs.com)"
     ]
   }
 }

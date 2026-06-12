@@ -1,26 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "Priestacy";
+  src: url("/Priestacy.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+/* ─── Aurora animation (Tailwind v4 @theme extension) ─────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --animate-aurora: aurora 60s linear infinite;
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  --font-display: "Playfair Display", serif;
+  --font-slogan: "Priestacy", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes aurora {
+  from { background-position: 50% 50%, 50% 50%; }
+  to   { background-position: 350% 50%, 350% 50%; }
 }
+
+/* ─── Theme variables ─────────────────────────────────────────────────────── */
+@theme inline {
+  --radius-none: 0px;
+  --radius-xs: 0.125rem;
+  --radius-default: 0.375rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.875rem;
+  --radius-full: 9999px;
+  --color-button-ripple-color: var(----button-ripple-color);
+}
+
+:root {
+  /* light */
+  --button-ripple-color: oklch(0.145 0 0 / 0.3);
+  --bg-base:       #f8fafc;
+  --bg-surface:    #ffffff;
+  --bg-surface2:   #f1f5f9;
+  --bg-code:       #f1f5f9;
+  --text-primary:  #0f172a;
+  --text-muted:    #475569;
+  --text-subtle:   #64748b;
+  --border:        rgba(15,23,42,0.12);
+  --border-soft:   rgba(15,23,42,0.08);
+  --brand:         #0f766e;
+  --brand-dark:    #115e59;
+  --brand-text:    #0f766e;
+  --brand-text-hover: #115e59;
+  --brand-fill:    #0f766e;
+  --brand-fill-hover: #115e59;
+  /* glow / shadow — light mode: subtler */
+  --glow-soft:    rgba(20,184,166,0.06);
+  --glow-med:     rgba(20,184,166,0.08);
+  --glow-text:    rgba(20,184,166,0.35);
+  --glow-box:     rgba(20,184,166,0.12);
+  /* shimmer text — light mode: dark-on-light */
+  --shimmer-base:  #475569;
+  --shimmer-peak:  #1e293b;
+  /* aurora background color tokens */
+  --white:         #ffffff;
+  --black:         #000000;
+  --transparent:   transparent;
+  --blue-500:      #3b82f6;
+  --indigo-300:    #a5b4fc;
+  --blue-300:      #93c5fd;
+  --violet-200:    #ddd6fe;
+  --blue-400:      #60a5fa;
+  /* falling-pattern tokens */
+  --primary:       #0f766e;
+  --background:    #f8fafc;
+}
+
+.dark {
+  --bg-base:       #0f172a;
+  --bg-surface:    #1e293b;
+  --bg-surface2:   rgba(30,41,59,0.4);
+  --bg-code:       #0d1526;
+  --text-primary:  #f8fafc;
+  --text-muted:    #94a3b8;
+  --text-subtle:   #475569;
+  --border:        rgba(255,255,255,0.08);
+  --border-soft:   rgba(255,255,255,0.05);
+  --brand:         #14b8a6;
+  --brand-dark:    #0d9488;
+  --brand-text:    #2dd4bf;
+  --brand-text-hover: #5eead4;
+  --brand-fill:    #0f766e;
+  --brand-fill-hover: #115e59;
+  /* glow / shadow — dark mode: bolder on dark bg */
+  --glow-soft:    rgba(20,184,166,0.12);
+  --glow-med:     rgba(20,184,166,0.15);
+  --glow-text:    rgba(20,184,166,0.5);
+  --glow-box:     rgba(20,184,166,0.2);
+  /* indicator / status — dark mode: muted variants */
+  --green:        #4ade80;
+  --yellow:       #facc15;
+  /* falling-pattern tokens */
+  --primary:       #14b8a6;
+  --background:    oklch(0 0 0);
+  --button-ripple-color: oklch(0.985 0 0 / 0.5);
+  /* shimmer text — dark mode: light-on-dark */
+  --shimmer-base:  #94a3b8;
+  --shimmer-peak:  #f8fafc;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { overflow-x: hidden; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+/* ─── Focus ───────────────────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* ─── Dot-grid background ─────────────────────────────────────────────────── */
+.grid-pattern {
+  background-image:
+    linear-gradient(var(--border-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ─── Glow ────────────────────────────────────────────────────────────────── */
+.glow-brand     { text-shadow: 0 0 20px var(--glow-text); }
+.glow-box-brand { box-shadow: 0 0 30px var(--glow-box); }
+
+/* ─── Gradient border card (pricing highlight) ────────────────────────────── */
+.gradient-border {
+  background: linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+              linear-gradient(135deg, #14b8a6, #0ea5e9, #8b5cf6) border-box;
+  border: 1.5px solid transparent;
+}
+
+/* ─── 21st.dev-style keyframes ────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(20,184,166,0); }
+  50%       { box-shadow: 0 0 20px 4px rgba(20,184,166,0.3); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.animate-shimmer  { background-size: 200% 100%; animation: shimmer 2.5s linear infinite; }
+.draw-stroke { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw-stroke 4s ease-in-out forwards; }
+@keyframes draw-stroke { to { stroke-dashoffset: 0; } }
+.btn-glow         { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-float    { animation: float 4s ease-in-out infinite; }
+
+.cursor-blink::after {
+  content: "▋";
+  animation: blink 1s step-end infinite;
+  color: var(--brand);
+}
+
+/* ─── Theme-adaptive shimmer text ─────────────────────────────────────────── */
+.text-shimmer-adaptive {
+  background-image:
+    linear-gradient(110deg, transparent 25%, rgba(20,184,166,0.75) 50%, transparent 75%),
+    linear-gradient(to right, var(--shimmer-base), var(--shimmer-peak), #14b8a6, var(--shimmer-peak), var(--shimmer-base));
+}
+
+/* ─── Border beam ─────────────────────────────────────────────────────────── */
+@property --border-beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-beam {
+  to { --border-beam-angle: 360deg; }
+}
+
+/* ─── Integration swing ──────────────────────────────────────────────── */
+@keyframes swing {
+  0%, 100% { transform: rotate(-1deg); }
+  50%      { transform: rotate(1deg); }
+}
+
+.animate-swing {
+  animation: swing 2.5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+/* ─── Marquee ─────────────────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100% - var(--gap))); }
+}
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to   { transform: translateY(calc(-100% - var(--gap))); }
+}
+
+/* ─── Liquid glass background animation ────────────────────────────────── */
+@keyframes moveBackground {
+  from { background-position: 0% 0%; }
+  to   { background-position: 0% -1000%; }
 }
