@@ -1,3 +1,6 @@
+
+name: rafikisms-landing
+
 services:
   app:
     build:
