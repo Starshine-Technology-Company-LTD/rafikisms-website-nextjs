@@ -26,7 +26,7 @@ const navigation = {
   Legal: [
     { label: "Privacy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
-    { label: "Security", href: "#" },
+    { label: "Data Deletion", href: "/data-deletion" },
   ],
 };
 
