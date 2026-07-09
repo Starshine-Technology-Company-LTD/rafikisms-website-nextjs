@@ -24,8 +24,8 @@ const navigation = {
     { label: "Contact", href: "#contact" },
   ],
   Legal: [
-    { label: "Privacy", href: "#" },
-    { label: "Terms", href: "#" },
+    { label: "Privacy", href: "/privacy" },
+    { label: "Terms", href: "/terms" },
     { label: "Security", href: "#" },
   ],
 };
